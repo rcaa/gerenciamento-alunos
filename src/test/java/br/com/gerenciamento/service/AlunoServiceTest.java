@@ -44,4 +44,52 @@ public class AlunoServiceTest {
         Assert.assertThrows(ConstraintViolationException.class, () -> {
                 this.serviceAluno.save(aluno);});
     }
+
+    @Test
+    public void salvarSemTurno() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    public void salvarSemCurso() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    public void salvarSemMadricula() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    public void salvarSemNomeTurno() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+
 }
