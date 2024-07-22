@@ -6,7 +6,6 @@ import br.com.gerenciamento.enums.Turno;
 import br.com.gerenciamento.model.Aluno;
 import jakarta.validation.ConstraintViolationException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,7 +25,6 @@ public class AlunoServiceTest {
     @Test
     public void getById() {
         Aluno aluno = new Aluno();
-        aluno.setId(1L);
         aluno.setNome("Vinicius");
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
@@ -34,14 +32,13 @@ public class AlunoServiceTest {
         aluno.setMatricula("123456");
         this.serviceAluno.save(aluno);
 
-        Aluno alunoRetorno = this.serviceAluno.getById(1L);
+        Aluno alunoRetorno = this.serviceAluno.getById(aluno.getId());
         Assert.assertTrue(alunoRetorno.getNome().equals("Vinicius"));
     }
 
     @Test
     public void salvarSemNome() {
         Aluno aluno = new Aluno();
-        aluno.setId(2L);
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
         aluno.setStatus(Status.ATIVO);
@@ -53,7 +50,6 @@ public class AlunoServiceTest {
     @Test
     public void atualizarNome(){
         Aluno aluno = new Aluno();
-        aluno.setId(2L);
         aluno.setNome("Vinicius");
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
@@ -61,18 +57,17 @@ public class AlunoServiceTest {
         aluno.setMatricula("123456");
         this.serviceAluno.save(aluno);
 
-        Aluno alunoSalvo = this.serviceAluno.getById(1L);
+        Aluno alunoSalvo = this.serviceAluno.getById(aluno.getId());
         alunoSalvo.setNome("Vinicios com o");
         this.serviceAluno.save(alunoSalvo);
 
-        Aluno alunoAtualizado = this.serviceAluno.getById(1L);
+        Aluno alunoAtualizado = this.serviceAluno.getById(alunoSalvo.getId());
         Assert.assertTrue(alunoAtualizado.getNome().equals("Vinicios com o"));
     }
 
     @Test
     public void deleteById(){
         Aluno aluno = new Aluno();
-        aluno.setId(1L);
         aluno.setNome("Vinicius");
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
@@ -80,26 +75,24 @@ public class AlunoServiceTest {
         aluno.setMatricula("123456");
         this.serviceAluno.save(aluno);
 
-        this.serviceAluno.deleteById(1L);
+        this.serviceAluno.deleteById(aluno.getId());
 
         Assert.assertThrows(NoSuchElementException.class, () -> {
-          this.serviceAluno.getById(1L);
+          this.serviceAluno.getById(aluno.getId());
         });
     }
     
     @Test
     public void findByStatusInativo() {
-        Aluno aluno = new Aluno();
-        aluno.setId(3L);
-        aluno.setNome("Vinicius");
-        aluno.setTurno(Turno.NOTURNO);
-        aluno.setCurso(Curso.ADMINISTRACAO);
-        aluno.setStatus(Status.ATIVO);
-        aluno.setMatricula("123456");
-        this.serviceAluno.save(aluno);
+        Aluno aluno1 = new Aluno();
+        aluno1.setNome("Vinicius");
+        aluno1.setTurno(Turno.NOTURNO);
+        aluno1.setCurso(Curso.ADMINISTRACAO);
+        aluno1.setStatus(Status.ATIVO);
+        aluno1.setMatricula("123456");
+        this.serviceAluno.save(aluno1);
 
         Aluno aluno2 = new Aluno();
-        aluno2.setId(4L);
         aluno2.setNome("Matheus");
         aluno2.setTurno(Turno.NOTURNO);
         aluno2.setCurso(Curso.DIREITO);
@@ -108,7 +101,6 @@ public class AlunoServiceTest {
         this.serviceAluno.save(aluno2);
         
         Aluno aluno3 = new Aluno();
-        aluno3.setId(5L);
         aluno3.setNome("Lucas");
         aluno3.setTurno(Turno.MATUTINO);
         aluno3.setCurso(Curso.BIOMEDICINA);
@@ -117,7 +109,6 @@ public class AlunoServiceTest {
         this.serviceAluno.save(aluno3);
 
         Aluno aluno4 = new Aluno();
-        aluno4.setId(6L);
         aluno4.setNome("Carlos");
         aluno4.setTurno(Turno.MATUTINO);
         aluno4.setCurso(Curso.DIREITO);
@@ -126,30 +117,24 @@ public class AlunoServiceTest {
         this.serviceAluno.save(aluno4);
 
         Aluno aluno5 = new Aluno();
-        aluno5.setId(7L);
         aluno5.setNome("Rafael");
         aluno5.setTurno(Turno.MATUTINO);
         aluno5.setCurso(Curso.DIREITO);
         aluno5.setStatus(Status.INATIVO);
         aluno5.setMatricula("123460");
         this.serviceAluno.save(aluno5);
-        List<Long> idsInativos = new ArrayList<Long>(5);
-        idsInativos.add(aluno3.getId());
-        idsInativos.add(aluno4.getId());
-        idsInativos.add(aluno5.getId());
         
         List<Aluno> alunosInativos = this.serviceAluno.findByStatusInativo();
         
         Assert.assertEquals(3, alunosInativos.size());
-        Assert.assertTrue(idsInativos.contains(alunosInativos.get(0).getId()));
-        Assert.assertTrue(idsInativos.contains(alunosInativos.get(1).getId()));
-        Assert.assertTrue(idsInativos.contains(alunosInativos.get(2).getId()));
+        Assert.assertTrue(alunosInativos.stream().anyMatch(aluno -> aluno.getNome().equals("Lucas")));
+        Assert.assertTrue(alunosInativos.stream().anyMatch(aluno -> aluno.getNome().equals("Carlos")));
+        Assert.assertTrue(alunosInativos.stream().anyMatch(aluno -> aluno.getNome().equals("Rafael")));
     }
 
     @Test
     public void findByNomeContainingIgnoreCase() {
         Aluno aluno = new Aluno();
-        aluno.setId(8L);
         aluno.setNome("AdaLBerTo");
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
@@ -159,7 +144,7 @@ public class AlunoServiceTest {
 
         List<Aluno> listaAlunos = serviceAluno.findByNomeContainingIgnoreCase("adalberto");
         Assert.assertEquals(1, listaAlunos.size());
-        Assert.assertEquals("AdaLBerTo", listaAlunos.get(0).getNome());
+        Assert.assertTrue(listaAlunos.stream().anyMatch(a -> a.getNome().equals("AdaLBerTo")));
         
     }
 
