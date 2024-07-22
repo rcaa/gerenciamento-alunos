@@ -16,7 +16,7 @@ import jakarta.validation.ConstraintViolationException;
 public class UsuarioRepositoryTest
 {
 	@Autowired
-    private UsuarioRepository UsuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
 	@Test
 	@Transactional
@@ -26,8 +26,8 @@ public class UsuarioRepositoryTest
 		usuario.setEmail("aaaaa@a.a");
         usuario.setUser("aaaaa");
         usuario.setSenha("aaaaa");
-		this.UsuarioRepository.save(usuario);
-		List<Usuario> usuarios = this.UsuarioRepository.findAll();
+		this.usuarioRepository.save(usuario);
+		List<Usuario> usuarios = this.usuarioRepository.findAll();
 		Assert.assertTrue(usuarios.get(0).getUser().equals("aaaaa"));
 	}
 
@@ -39,7 +39,7 @@ public class UsuarioRepositoryTest
 		usuario.setEmail("aaaaa");
         usuario.setUser("aaaaa");
         usuario.setSenha("aaaaa");
-		Assert.assertThrows(ConstraintViolationException.class, () -> {this.UsuarioRepository.save(usuario);});
+		Assert.assertThrows(ConstraintViolationException.class, () -> {this.usuarioRepository.save(usuario);});
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class UsuarioRepositoryTest
 		usuario.setEmail("aaaaa@.a");
         usuario.setUser("a");
         usuario.setSenha("aaaaa");
-		Assert.assertThrows(ConstraintViolationException.class, () -> {this.UsuarioRepository.save(usuario);});
+		Assert.assertThrows(ConstraintViolationException.class, () -> {this.usuarioRepository.save(usuario);});
 	}
 
 	@Test
@@ -61,8 +61,8 @@ public class UsuarioRepositoryTest
 		usuario.setEmail("aaaaa@a.a");
         usuario.setUser("aaaaa");
         usuario.setSenha("aaaaa");
-		this.UsuarioRepository.save(usuario);
-		Usuario usuarioAchado = this.UsuarioRepository.buscarLogin("aaaaa", "aaaaa");
+		this.usuarioRepository.save(usuario);
+		Usuario usuarioAchado = this.usuarioRepository.buscarLogin("aaaaa", "aaaaa");
 		Assert.assertTrue(usuarioAchado.getEmail().equals("aaaaa@a.a"));
 	}
 }
