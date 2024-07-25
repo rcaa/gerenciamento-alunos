@@ -15,7 +15,6 @@ public class ServiceUsuario {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
     public void salvarUsuario(Usuario user) throws Exception {
         try {
             if (usuarioRepository.findByEmail(user.getEmail()) != null) {
@@ -30,5 +29,13 @@ public class ServiceUsuario {
 
     public Usuario loginUser(String user, String senha) {
         return usuarioRepository.buscarLogin(user, senha);
+    }
+
+    public Usuario getById(Long id) {
+        return this.usuarioRepository.findById(id).get();
+    }
+
+    public void deleteById(Long id) {
+        this.usuarioRepository.deleteById(id);
     }
 }
