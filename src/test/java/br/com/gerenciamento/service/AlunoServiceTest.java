@@ -5,6 +5,9 @@ import br.com.gerenciamento.enums.Status;
 import br.com.gerenciamento.enums.Turno;
 import br.com.gerenciamento.model.Aluno;
 import jakarta.validation.ConstraintViolationException;
+
+import java.util.List;
+
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +46,62 @@ public class AlunoServiceTest {
         aluno.setMatricula("123456");
         Assert.assertThrows(ConstraintViolationException.class, () -> {
                 this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    public void salvarSemMatricula() {
+        Aluno alunoSemMatricula = new Aluno();
+        alunoSemMatricula.setId(2L);
+        alunoSemMatricula.setNome("Ana");
+        alunoSemMatricula.setTurno(Turno.NOTURNO);
+        alunoSemMatricula.setCurso(Curso.ADMINISTRACAO);
+        alunoSemMatricula.setStatus(Status.ATIVO);
+
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(alunoSemMatricula);
+        });
+    }
+
+    @Test
+    public void findByStatusInativo() {
+        Aluno alunoInativo = new Aluno();
+        alunoInativo.setId(3L);
+        alunoInativo.setNome("Maria");
+        alunoInativo.setTurno(Turno.NOTURNO);
+        alunoInativo.setCurso(Curso.ADMINISTRACAO);
+        alunoInativo.setStatus(Status.INATIVO);
+        alunoInativo.setMatricula("345678");
+        this.serviceAluno.save(alunoInativo);
+        
+        List<Aluno> alunosInativos = this.serviceAluno.findByStatusInativo();
+        Assert.assertTrue(alunosInativos.stream().anyMatch(aluno -> aluno.getNome().equals("Maria")));
+    }
+
+    @Test
+    public void salvarSemCurso() {
+        Aluno alunoSemCurso = new Aluno();
+        alunoSemCurso.setNome("Pedro");
+        alunoSemCurso.setTurno(Turno.NOTURNO);
+        alunoSemCurso.setStatus(Status.ATIVO);
+        alunoSemCurso.setMatricula("567890");
+
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            serviceAluno.save(alunoSemCurso);
+        });
+    }
+
+    @Test
+    public void findByNomeContainingIgnoreCase() {
+        Aluno alunoRoberto = new Aluno();
+        alunoRoberto.setNome("Maria Julia");
+        alunoRoberto.setTurno(Turno.NOTURNO);
+        alunoRoberto.setCurso(Curso.ADMINISTRACAO);
+        alunoRoberto.setStatus(Status.ATIVO);
+        alunoRoberto.setMatricula("789012");
+        serviceAluno.save(alunoRoberto);
+
+
+        List<Aluno> alunosEncontrados = serviceAluno.findByNomeContainingIgnoreCase("juli");
+        Assert.assertTrue(alunosEncontrados.stream().anyMatch(aluno -> aluno.getNome().equals("Maria Julia")));
     }
 }
