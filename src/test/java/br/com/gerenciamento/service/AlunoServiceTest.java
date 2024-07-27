@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AlunoServiceTest
 {
-    @Autowired
+	@Autowired
     private ServiceAluno serviceAluno;
 
     @Test
@@ -31,8 +31,7 @@ public class AlunoServiceTest
         aluno.setStatus(Status.ATIVO);
         aluno.setMatricula("123456");
         this.serviceAluno.save(aluno);
-        List<Aluno> alunos = this.serviceAluno.findAll();
-		Aluno alunoAchado = this.serviceAluno.getById(alunos.get(0).getId());
+		Aluno alunoAchado = this.serviceAluno.getById(aluno.getId());
         Assert.assertTrue(alunoAchado.getNome().equals("Vinicius"));
     }
 
@@ -68,6 +67,18 @@ public class AlunoServiceTest
 		this.serviceAluno.save(aluno2);
         List<Aluno> alunos = this.serviceAluno.findAll();
         Assert.assertEquals(2, alunos.size());
+		if (alunos.get(0).getId() == aluno1.getId())
+		{
+			Assert.assertEquals(alunos.get(1).getId(), aluno2.getId());
+		}
+		else if (alunos.get(1).getId() == aluno1.getId())
+		{
+			Assert.assertEquals(alunos.get(0).getId(), aluno2.getId());
+		}
+		else
+		{
+			Assert.fail();
+		}
     }
 
     @Test
@@ -81,9 +92,8 @@ public class AlunoServiceTest
         aluno.setStatus(Status.ATIVO);
         aluno.setMatricula("aaa");
         this.serviceAluno.save(aluno);
-		List<Aluno> alunos = this.serviceAluno.findAll();
-        this.serviceAluno.deleteById(alunos.get(alunos.size()-1).getId());
-        Assert.assertThrows(java.util.NoSuchElementException.class, () -> {this.serviceAluno.getById(alunos.get(alunos.size()-1).getId());});
+        this.serviceAluno.deleteById(aluno.getId());
+        Assert.assertThrows(java.util.NoSuchElementException.class, () -> {this.serviceAluno.getById(aluno.getId());});
     }
 
     @Test
@@ -98,7 +108,7 @@ public class AlunoServiceTest
         aluno.setMatricula("aaa");
         this.serviceAluno.save(aluno);
         List<Aluno> alunos = this.serviceAluno.findByStatusAtivo();
-        Assert.assertTrue(alunos.get(0).getNome().equals("aaaaa"));
+        Assert.assertEquals(alunos.get(0).getId(), aluno.getId());
     }
 
     @Test
@@ -113,6 +123,6 @@ public class AlunoServiceTest
         aluno.setMatricula("aaa");
         this.serviceAluno.save(aluno);
         List<Aluno> alunos = this.serviceAluno.findByNomeContainingIgnoreCase("aAaAa");
-        Assert.assertTrue(alunos.get(0).getNome().equals("AaAaA"));
+        Assert.assertEquals(alunos.get(0).getId(), aluno.getId());
 	}
 }

@@ -25,7 +25,6 @@ public class UsuarioServiceTest
     public void salvarUsuario()
 	{
 		Usuario usuario = new Usuario();
-		usuario.setId(1L);
 		usuario.setEmail("aaaaa@a.a");
 		usuario.setUser("aaaaa");
 		usuario.setSenha("aaaaa");
@@ -38,11 +37,9 @@ public class UsuarioServiceTest
 	{
 		Usuario usuario1 = new Usuario();
 		Usuario usuario2 = new Usuario();
-		usuario1.setId(1L);
 		usuario1.setEmail("aaaaa@a.a");
 		usuario1.setUser("aaaaa");
 		usuario1.setSenha("aaaaa");
-		usuario2.setId(2L);
 		usuario2.setEmail("aaaaa@a.a");
 		usuario2.setUser("bbbbb");
 		usuario2.setSenha("bbbbb");
@@ -55,7 +52,6 @@ public class UsuarioServiceTest
     public void salvarUsuarioInvalidName()
 	{
 		Usuario usuario = new Usuario();
-		usuario.setId(1L);
 		usuario.setEmail("aaaaa@a.a");
 		usuario.setUser("a");
 		usuario.setSenha("aaaaa");
@@ -67,12 +63,11 @@ public class UsuarioServiceTest
     public void loginUser() throws Exception
 	{
 		Usuario usuario = new Usuario();
-		usuario.setId(1L);
 		usuario.setEmail("aaaaa@a.a");
 		usuario.setUser("aaaaa");
 		usuario.setSenha("aaaaa");
 		this.serviceUsuario.salvarUsuario(usuario);
 		Usuario usuarioAchado = serviceUsuario.loginUser("aaaaa", Util.md5("aaaaa"));
-		Assert.assertTrue(usuarioAchado.getEmail().equals("aaaaa@a.a"));
+		Assert.assertEquals(usuarioAchado.getId(), usuario.getId());
 	}
 }
