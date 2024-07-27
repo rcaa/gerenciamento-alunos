@@ -32,8 +32,8 @@ public class AlunoRepositoryTest
         aluno.setStatus(Status.ATIVO);
         aluno.setMatricula("aaa");
 		this.alunoRepository.save(aluno);
-		List<Aluno> alunos = this.alunoRepository.findAll();
-		Assert.assertTrue(alunos.get(0).getNome().equals("aaaaa"));
+		Aluno alunoEncontrado = this.alunoRepository.findById(aluno.getId()).orElse(null);
+		Assert.assertTrue(alunoEncontrado.getNome().equals("aaaaa"));
 	}
 
 	@Test
@@ -61,7 +61,15 @@ public class AlunoRepositoryTest
         aluno.setMatricula("aaa");
 		this.alunoRepository.save(aluno);
 		List<Aluno> alunos = this.alunoRepository.findByStatusInativo();
-		Assert.assertEquals(1, alunos.size());
+		Aluno alunoAchado = null;
+		for (int index = 0; index < alunos.size(); index++)
+		{
+			if (alunos.get(index).getId() == aluno.getId())
+			{
+				alunoAchado = alunos.get(index);
+			}
+		}
+		Assert.assertTrue(alunoAchado.getNome().equals("aaaaa"));
 	}
 
 	@Test
@@ -76,6 +84,14 @@ public class AlunoRepositoryTest
         aluno.setMatricula("aaa");
 		this.alunoRepository.save(aluno);
 		List<Aluno> alunos = this.alunoRepository.findByNomeContainingIgnoreCase("aAaAa");
-		Assert.assertTrue(alunos.get(0).getNome().equals("AaAaA"));
+		Aluno alunoAchado = null;
+		for (int index = 0; index < alunos.size(); index++)
+		{
+			if (alunos.get(index).getId() == aluno.getId())
+			{
+				alunoAchado = alunos.get(index);
+			}
+		}
+		Assert.assertTrue(alunoAchado.getNome().equals("AaAaA"));
 	}
 }

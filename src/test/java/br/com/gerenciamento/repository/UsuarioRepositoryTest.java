@@ -1,6 +1,5 @@
 package br.com.gerenciamento.repository;
 
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +26,8 @@ public class UsuarioRepositoryTest
         usuario.setUser("aaaaa");
         usuario.setSenha("aaaaa");
 		this.usuarioRepository.save(usuario);
-		List<Usuario> usuarios = this.usuarioRepository.findAll();
-		Assert.assertTrue(usuarios.get(0).getUser().equals("aaaaa"));
+		Usuario usuarioAchado = this.usuarioRepository.findById(usuario.getId()).orElse(null);
+		Assert.assertTrue(usuarioAchado.getUser().equals("aaaaa"));
 	}
 
 	@Test
