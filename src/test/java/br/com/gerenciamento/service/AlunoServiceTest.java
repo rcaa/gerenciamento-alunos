@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -19,6 +20,7 @@ public class AlunoServiceTest {
     private ServiceAluno serviceAluno;
 
     @Test
+    @Transactional
     public void getById() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
@@ -34,6 +36,7 @@ public class AlunoServiceTest {
     }
 
     @Test
+    @Transactional
     public void salvarSemNome() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
@@ -44,4 +47,59 @@ public class AlunoServiceTest {
         Assert.assertThrows(ConstraintViolationException.class, () -> {
                 this.serviceAluno.save(aluno);});
     }
+
+    @Test
+    @Transactional
+    public void salvarNomeCurto(){
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vini");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+        this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    @Transactional
+    public void salvarNomeLongo(){
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Maximiliano Rodriguez Alvarez Fernandez Santos");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+        this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    @Transactional
+    public void salvarSemMatricula(){
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+        this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    @Transactional
+    public void salvarSemCurso() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+        this.serviceAluno.save(aluno);});
+    }
+
 }
