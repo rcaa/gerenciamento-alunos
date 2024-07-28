@@ -5,6 +5,11 @@ import br.com.gerenciamento.enums.Status;
 import br.com.gerenciamento.enums.Turno;
 import br.com.gerenciamento.model.Aluno;
 import jakarta.validation.ConstraintViolationException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,18 +86,29 @@ public class AlunoServiceTest {
     }
 
     //Terceiro teste implementado
-    @Test
-    public void findByStatusInativo(){
+     @Test
+    public void testFindAllAlunos() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
         aluno.setNome("Vinicius");
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
-        aluno.setStatus(Status.INATIVO);
+        aluno.setStatus(Status.ATIVO);
         aluno.setMatricula("123456");
-        this.serviceAluno.save(aluno);
 
-        Assert.assertTrue(this.serviceAluno.findByStatusInativo().size() > 0);
+        Aluno aluno2 = new Aluno();
+        aluno2.setId(2L);
+        aluno2.setNome("Vinicius");
+        aluno2.setTurno(Turno.NOTURNO);
+        aluno2.setCurso(Curso.ADMINISTRACAO);
+        aluno2.setStatus(Status.ATIVO);
+        aluno2.setMatricula("654321");
+
+        serviceAluno.save(aluno);
+        serviceAluno.save(aluno2);
+
+        List<Aluno> alunos = serviceAluno.findAll();
+        assertEquals(2, alunos.size());
     }
 
 
