@@ -31,4 +31,9 @@ public class ServiceUsuario {
     public Usuario loginUser(String user, String senha) {
         return usuarioRepository.buscarLogin(user, senha);
     }
+
+    public Usuario findByUser(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByUser'");
+    }
 }
