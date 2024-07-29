@@ -44,4 +44,15 @@ public class UsuarioControllerTest {
                 .andExpect(model().attributeExists("usuario"));
     }
 
+    @Test
+    public void testCadastrarUsuario() throws Exception {
+        mockMvc.perform(post("/salvarUsuario")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("email", "novo@teste.com")
+                .param("user", "novouser")
+                .param("senha", "654321"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
+    }
+
 }
