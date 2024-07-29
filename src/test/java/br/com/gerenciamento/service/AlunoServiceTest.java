@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,6 +31,36 @@ public class AlunoServiceTest {
         this.serviceAluno.save(aluno);
 
         Aluno alunoRetorno = this.serviceAluno.getById(1L);
+        Assert.assertTrue(alunoRetorno.getNome().equals("Vinicius"));
+    }
+
+    @Test
+    public void getByCurso() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        this.serviceAluno.save(aluno);
+
+        List<Aluno> alunoRetorno = this.serviceAluno.getByCurso(Curso.ADMINISTRACAO);
+        
+    }
+
+    @Test
+    public void getByMatricula() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        this.serviceAluno.save(aluno);
+
+        Aluno alunoRetorno = this.serviceAluno.getByMatricula("123456");
         Assert.assertTrue(alunoRetorno.getNome().equals("Vinicius"));
     }
 

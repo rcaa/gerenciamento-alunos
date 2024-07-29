@@ -26,14 +26,24 @@ class ServiceUsuarioTest {
     @Test
     public void loginUser() {
         Usuario user = new Usuario();
-        usuarioRepository.buscarLogin(user.getUser(), user.getSenha());
+        user.setUser("Alexandre");
+        user.setId(12L);
+        user.setSenha("12345");
+        user.setEmail("alexandre.w");
+
+        Usuario final = this.usuarioRepository.buscarLogin(user.getUser(), user.getSenha());
+        Assert.assertTrue(userRetorno.getNome().equals("Alexandre"));
     }
 
     @Test
     public void RedefinirLogin(){
         Usuario user = new Usuario();
+        user.setUser("Alexandre");
+        user.setId(12L);
+        user.setSenha("12345");
+        user.setEmail("alexandre.w");
 
-        if(Assert.assertTrue(user).IsPresent() == true){
+        if(Assert.assertTrue(user).IsPresent()){
             user.setSenha("12345");
             user.setEmail("novoEmail");
         }
