@@ -51,4 +51,18 @@ public class AlunoControllerTest {
                 .andExpect(view().name("Aluno/formAluno"))
                 .andExpect(model().attributeExists("aluno"));
     }
+
+    @Test
+    public void testInserirAluno() throws Exception {
+        mockMvc.perform(post("/InsertAlunos")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("nome", "Novo Aluno")
+                .param("matricula", "456")
+                .param("curso", "ENFERMAGEM")
+                .param("status", "ATIVO")
+                .param("turno", "NOTURNO"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/alunos-adicionados"));
+    }
+
 }
