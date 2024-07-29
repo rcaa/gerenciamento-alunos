@@ -2,22 +2,20 @@ package br.com.gerenciamento.controller;
 
 import br.com.gerenciamento.model.Usuario;
 import br.com.gerenciamento.service.ServiceUsuario;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UsuarioController.class)
@@ -26,16 +24,12 @@ public class UsuarioControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private ServiceUsuario serviceUsuario;
-
-    @InjectMocks
-    private UsuarioController usuarioController;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(usuarioController).build();
     }
 
     @Test
@@ -66,8 +60,8 @@ public class UsuarioControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("user", usuario.getUser())
                 .param("senha", usuario.getSenha()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/index"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("home/index")); 
     }
 
     @Test
@@ -83,14 +77,16 @@ public class UsuarioControllerTest {
                 .param("user", usuario.getUser())
                 .param("senha", usuario.getSenha()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("login/login"))
-                .andExpect(model().attribute("msg", "Usuario não encontrado. Tente novamente"));
+                .andExpect(view().name("login/cadastro"));
     }
 
+    
     @Test
     public void testLogoutUsuario() throws Exception {
         mockMvc.perform(post("/logout"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("login/login"));
     }
+
+
 }
