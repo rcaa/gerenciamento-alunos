@@ -79,4 +79,18 @@ public class UsuarioServiceTest {
 
     }
 
+    @Test
+    public void loginUsuarioComCredenciaisCorretas() {
+        Usuario usuario = new Usuario();
+        usuario.setUser("usuario");
+        usuario.setSenha("senhaCriptografada");
+
+        when(usuarioRepository.buscarLogin(eq("usuario"), eq("senhaCriptografada"))).thenReturn(usuario);
+
+        Usuario usuarioRetornado = serviceUsuario.loginUser("usuario", "senhaCriptografada");
+
+        assertNotNull("O usuário retornado não pode ser nulo", usuarioRetornado);
+        assertEquals("O usuário retornado deve ser o mesmo", "usuario", usuarioRetornado.getUser());
+    }
+
 }
