@@ -19,10 +19,7 @@ import br.com.gerenciamento.enums.Curso;
 import br.com.gerenciamento.enums.Status;
 import br.com.gerenciamento.enums.Turno;
 import br.com.gerenciamento.model.Aluno;
-import br.com.gerenciamento.enums.Curso;
-import br.com.gerenciamento.repository.AlunoRepository;
 
-import jakarta.validation.ConstraintViolationException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
