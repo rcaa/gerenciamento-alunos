@@ -89,8 +89,36 @@ public class AlunoServiceTest {
 
         List<Aluno> alunosAtivos = this.serviceAluno.findByStatusAtivo();
         Assert.assertNotNull(alunosAtivos);
-        Assert.assertEquals(4, alunosAtivos.size());
+        Assert.assertEquals(5, alunosAtivos.size());
         Assert.assertTrue(alunosAtivos.stream().anyMatch(a -> a.getNome().equals("Carlos Silva")));
         Assert.assertTrue(alunosAtivos.stream().anyMatch(a -> a.getNome().equals("Ana Lima")));
+    }
+
+    @Test
+    public void testFindByNomeContainingIgnoreCase() {
+        Aluno aluno1 = new Aluno();
+        aluno1.setId(6L);
+        aluno1.setNome("Bruno Silva");
+        aluno1.setTurno(Turno.NOTURNO);
+        aluno1.setCurso(Curso.DIREITO);
+        aluno1.setStatus(Status.ATIVO);
+        aluno1.setMatricula("333333");
+
+        Aluno aluno2 = new Aluno();
+        aluno2.setId(7L);
+        aluno2.setNome("Bruna Almeida");
+        aluno2.setTurno(Turno.NOTURNO);
+        aluno2.setCurso(Curso.ENFERMAGEM);
+        aluno2.setStatus(Status.ATIVO);
+        aluno2.setMatricula("444444");
+
+        this.serviceAluno.save(aluno1);
+        this.serviceAluno.save(aluno2);
+
+        List<Aluno> alunosEncontrados = this.serviceAluno.findByNomeContainingIgnoreCase("bru");
+        Assert.assertNotNull("Lista de alunos encontrados não pode ser nula", alunosEncontrados);
+        Assert.assertEquals("Número de alunos encontrados está incorreto", 2, alunosEncontrados.size());
+        Assert.assertTrue("Aluno Bruno Silva não encontrado", alunosEncontrados.stream().anyMatch(a -> a.getNome().equals("Bruno Silva")));
+        Assert.assertTrue("Aluno Bruna Almeida não encontrado", alunosEncontrados.stream().anyMatch(a -> a.getNome().equals("Bruna Almeida")));
     }
 }
