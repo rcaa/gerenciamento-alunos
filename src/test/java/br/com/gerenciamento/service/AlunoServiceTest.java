@@ -142,7 +142,7 @@ public class AlunoServiceTest {
     @Transactional
     public void testDeleteById() {
         Aluno aluno = new Aluno();
-        aluno.setNome("Dora Lima");
+        aluno.setNome("Dora Adventurous");
         aluno.setTurno(Turno.MATUTINO);
         aluno.setCurso(Curso.BIOMEDICINA);
         aluno.setStatus(Status.ATIVO);
@@ -163,13 +163,13 @@ public class AlunoServiceTest {
         Aluno aluno1 = new Aluno();
         Aluno aluno2 = new Aluno();
 
-        aluno1.setNome("Anelise Moraes");
+        aluno1.setNome("Anelise Genevieve");
         aluno1.setTurno(Turno.NOTURNO);
         aluno1.setCurso(Curso.DIREITO);
         aluno1.setStatus(Status.INATIVO);
         aluno1.setMatricula("321");
 
-        aluno2.setNome("Erica Dias");
+        aluno2.setNome("Erica Lauren");
         aluno2.setTurno(Turno.NOTURNO);
         aluno2.setCurso(Curso.CONTABILIDADE);
         aluno2.setStatus(Status.ATIVO);
