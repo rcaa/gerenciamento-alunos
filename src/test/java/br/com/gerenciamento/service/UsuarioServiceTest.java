@@ -7,6 +7,7 @@ import br.com.gerenciamento.service.ServiceUsuario;
 import ch.qos.logback.classic.pattern.Util;
 import jakarta.validation.ConstraintViolationException;
 
+
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -33,7 +34,7 @@ public class UsuarioServiceTest {
         usuario.setUser("Teste1");
         usuario.setEmail("test@example.com");
         usuario.setSenha("senha");
-        serviceUsuario.salvarUsuario(usuario);
+        this.serviceUsuario.salvarUsuario(usuario);
 
         Assert.assertTrue(usuario.getUser().equals("Teste1"));
 
@@ -54,7 +55,7 @@ public class UsuarioServiceTest {
         usuario2.setSenha("senha789");
 
         Assert.assertThrows(EmailExistsException.class, () -> {
-            serviceUsuario.salvarUsuario(usuario2);
+            this.serviceUsuario.salvarUsuario(usuario2);
         });
 
     }
@@ -63,12 +64,24 @@ public class UsuarioServiceTest {
     public void loginUserComCredenciaisInvalidas() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setUser("UsuarioLogin");
-        usuario.setEmail("login@example.com");
+        usuario.setEmail("login00@example.com");
         usuario.setSenha("senha");
-        serviceUsuario.salvarUsuario(usuario);
+        this.serviceUsuario.salvarUsuario(usuario);
 
         Usuario usuarioLogado = serviceUsuario.loginUser("UsuarioLogin", "senhaErrada");
         assertNull(usuarioLogado);
+    }
+
+    @Test
+    public void loginUserComCredenciaisValidas() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setUser("UsuarioLogin");
+        usuario.setEmail("login@example.com");
+        usuario.setSenha("senha");
+        this.serviceUsuario.salvarUsuario(usuario);
+
+        Usuario usuarioLogado = serviceUsuario.loginUser(usuario.getUser(), usuario.getSenha());
+        Assert.assertTrue(usuarioLogado.getUser().equals("UsuarioLogin"));
     }
 
 }
