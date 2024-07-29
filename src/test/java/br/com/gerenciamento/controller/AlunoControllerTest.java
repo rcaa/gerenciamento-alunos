@@ -65,4 +65,12 @@ public class AlunoControllerTest {
                 .andExpect(redirectedUrl("/alunos-adicionados"));
     }
 
+    @Test
+    public void testListagemAlunos() throws Exception {
+        mockMvc.perform(get("/alunos-adicionados"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("Aluno/listAlunos"))
+                .andExpect(model().attributeExists("alunosList"));
+    }
+
 }
