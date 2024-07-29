@@ -170,8 +170,8 @@ public class AlunoServiceTest {
         aluno1.setMatricula("321");
 
         aluno2.setNome("Erica Lauren");
-        aluno2.setTurno(Turno.NOTURNO);
-        aluno2.setCurso(Curso.CONTABILIDADE);
+        aluno2.setTurno(Turno.VESPERTINO);
+        aluno2.setCurso(Curso.MODA);
         aluno2.setStatus(Status.ATIVO);
         aluno2.setMatricula("456");
 
