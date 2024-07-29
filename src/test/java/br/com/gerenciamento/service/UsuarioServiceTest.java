@@ -69,4 +69,14 @@ public class UsuarioServiceTest {
         assertEquals("Este email já esta cadastrado: usuario@exemplo.com", thrownException.getMessage());
     }
 
+    @Test
+    public void salvarUsuarioComErroNaCriptografia() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setEmail("usuario@exemplo.com");
+        usuario.setSenha("senha123");
+
+        when(usuarioRepository.findByEmail(eq("usuario@exemplo.com"))).thenReturn(null);
+
+    }
+
 }
