@@ -1,9 +1,5 @@
 package br.com.gerenciamento.controller;
 
-import br.com.gerenciamento.model.Aluno;
-import br.com.gerenciamento.model.Usuario;
-import br.com.gerenciamento.service.ServiceUsuario;
-import br.com.gerenciamento.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,9 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.gerenciamento.model.Aluno;
+import br.com.gerenciamento.model.Usuario;
+import br.com.gerenciamento.service.ServiceUsuario;
+import br.com.gerenciamento.util.Util;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import java.security.NoSuchAlgorithmException;
 
 @Controller
 public class UsuarioController {
@@ -56,7 +55,7 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ModelAndView login(@Valid Usuario usuario, BindingResult br,
-                              HttpSession session) throws NoSuchAlgorithmException {
+                              HttpSession session) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("usuario", new Usuario());
         if(br.hasErrors()) {

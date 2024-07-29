@@ -1,14 +1,15 @@
 package br.com.gerenciamento.service;
 
+import java.security.NoSuchAlgorithmException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.com.gerenciamento.exception.CriptoExistsException;
 import br.com.gerenciamento.exception.EmailExistsException;
 import br.com.gerenciamento.model.Usuario;
 import br.com.gerenciamento.repository.UsuarioRepository;
 import br.com.gerenciamento.util.Util;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.security.NoSuchAlgorithmException;
 
 @Service
 public class ServiceUsuario {
@@ -28,7 +29,11 @@ public class ServiceUsuario {
         usuarioRepository.save(user);
     }
 
-    public Usuario loginUser(String user, String senha) {
+    public Usuario loginUser(String user, String senha){
         return usuarioRepository.buscarLogin(user, senha);
+    }
+
+    public Usuario findByEmail(String email){
+        return usuarioRepository.findByEmail(email);
     }
 }

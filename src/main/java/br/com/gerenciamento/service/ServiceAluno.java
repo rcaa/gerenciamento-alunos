@@ -1,11 +1,14 @@
 package br.com.gerenciamento.service;
 
-import br.com.gerenciamento.model.Aluno;
-import br.com.gerenciamento.repository.AlunoRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import br.com.gerenciamento.enums.Curso;
+import br.com.gerenciamento.model.Aluno;
+import br.com.gerenciamento.repository.AlunoRepository;
 
 @Service
 public class ServiceAluno {
@@ -22,7 +25,15 @@ public class ServiceAluno {
     }
 
     public Aluno getById(Long id) {
-        return this.alunoRepository.findById(id).get();
+        return this.alunoRepository.findById(id).orElse(null);
+    }
+
+    public Optional<Aluno> getByMatricula(String matricula){
+        return this.alunoRepository.getByMatricula(matricula);
+    }
+
+    public List<Aluno> findByCurso(Curso curso){
+        return this.alunoRepository.findByCurso(curso);
     }
 
     public void deleteById(Long id) {
