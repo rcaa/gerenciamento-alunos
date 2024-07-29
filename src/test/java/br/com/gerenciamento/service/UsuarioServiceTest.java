@@ -52,4 +52,21 @@ public class UsuarioServiceTest {
         verify(usuarioRepository, times(1)).save(any(Usuario.class));
 
     }
+
+    @Test
+    public void salvarUsuarioComEmailJaExistente() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setEmail("usuario@exemplo.com");
+        usuario.setSenha("senha123");
+
+        when(usuarioRepository.findByEmail(eq("usuario@exemplo.com"))).thenReturn(new Usuario());
+
+        EmailExistsException thrownException = assertThrows(
+            EmailExistsException.class,
+            () -> serviceUsuario.salvarUsuario(usuario)
+        );
+
+        assertEquals("Este email já esta cadastrado: usuario@exemplo.com", thrownException.getMessage());
+    }
+
 }
