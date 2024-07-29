@@ -7,6 +7,7 @@ import br.com.gerenciamento.model.Aluno;
 import jakarta.validation.ConstraintViolationException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -120,5 +121,23 @@ public class AlunoServiceTest {
         Assert.assertEquals("Número de alunos encontrados está incorreto", 2, alunosEncontrados.size());
         Assert.assertTrue("Aluno Bruno Silva não encontrado", alunosEncontrados.stream().anyMatch(a -> a.getNome().equals("Bruno Silva")));
         Assert.assertTrue("Aluno Bruna Almeida não encontrado", alunosEncontrados.stream().anyMatch(a -> a.getNome().equals("Bruna Almeida")));
+    }
+
+    @Test
+    public void deletarAluno() {
+        Aluno aluno = new Aluno();
+        aluno.setId(8L);
+        aluno.setNome("Mariana Costa");
+        aluno.setTurno(Turno.MATUTINO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("555555");
+        this.serviceAluno.save(aluno);
+
+        this.serviceAluno.deleteById(8L);
+
+        Assert.assertThrows(NoSuchElementException.class, () -> {
+            this.serviceAluno.getById(8L);
+        });
     }
 }
