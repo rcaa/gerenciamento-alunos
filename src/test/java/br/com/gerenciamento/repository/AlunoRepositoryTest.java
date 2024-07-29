@@ -73,4 +73,12 @@ public class AlunoRepositoryTest {
         assertTrue(result.contains(aluno2));
     }
 
+    @Test
+    @Transactional
+    public void testFindByNomeContainingIgnoreCase() {
+        List<Aluno> result = alunoRepository.findByNomeContainingIgnoreCase("joão");
+        assertEquals(1, result.size());
+        assertTrue(result.contains(aluno1));
+    }
+
 }
