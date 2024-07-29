@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 
+import static br.com.gerenciamento.util.Util.md5;
+
 @Service
 public class ServiceUsuario {
 
@@ -21,7 +23,7 @@ public class ServiceUsuario {
             if (usuarioRepository.findByEmail(user.getEmail()) != null) {
                 throw new EmailExistsException("Este email já esta cadastrado: " + user.getEmail());
             }
-            user.setSenha(Util.md5(user.getSenha()));
+            user.setSenha(md5(user.getSenha()));
         } catch (NoSuchAlgorithmException e) {
             throw new CriptoExistsException("Error na criptografia da senha");
         }

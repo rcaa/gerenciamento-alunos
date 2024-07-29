@@ -41,7 +41,7 @@ public class UsuarioController {
     @GetMapping("/cadastro")
     public ModelAndView cadastrar() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("usuario", new Usuario());
+        ModelAndView usuario = modelAndView.addObject("usuario", new Usuario());
         modelAndView.setViewName("login/cadastro");
         return modelAndView;
     }

@@ -40,4 +40,8 @@ public class ServiceAluno {
     public List<Aluno> findByNomeContainingIgnoreCase(String nome) {
         return this.alunoRepository.findByNomeContainingIgnoreCase(nome);
     }
+
+    public void delete(Long id) {
+    }
+
 }

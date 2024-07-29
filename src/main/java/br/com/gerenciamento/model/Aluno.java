@@ -42,6 +42,16 @@ public class Aluno {
     @NotNull
     private Turno turno;
 
+    public Aluno(String nome, String mail, String ativo) {
+    }
+
+    public Aluno() {
+
+    }
+
+    public Aluno(String nome, String email, String status, String turno, String matricula, String curso) {
+    }
+
     public Long getId() {
         return id;
     }
