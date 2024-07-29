@@ -65,4 +65,12 @@ public class AlunoRepositoryTest {
         assertTrue(result.contains(aluno3));
     }
 
+    @Test
+    @Transactional
+    public void testFindByStatusInativo() {
+        List<Aluno> result = alunoRepository.findByStatusInativo();
+        assertEquals(1, result.size());
+        assertTrue(result.contains(aluno2));
+    }
+
 }
