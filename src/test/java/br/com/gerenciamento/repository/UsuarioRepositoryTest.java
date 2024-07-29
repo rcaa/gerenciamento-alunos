@@ -63,4 +63,10 @@ public class UsuarioRepositoryTest {
         assertEquals("test2@example.com", foundUser.getEmail());
     }
 
+    @Test
+    @Transactional
+    public void testBuscarLoginInvalid() {
+        Usuario foundUser = usuarioRepository.buscarLogin("user2", "wrongpassword");
+        assertNull(foundUser);
+    }
 }
