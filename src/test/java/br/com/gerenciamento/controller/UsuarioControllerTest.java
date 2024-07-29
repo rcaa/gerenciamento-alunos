@@ -55,4 +55,21 @@ public class UsuarioControllerTest {
                 .andExpect(redirectedUrl("/"));
     }
 
+    @Test
+    public void testLogout() throws Exception {
+        Usuario usuarioLogout = new Usuario();
+        usuarioLogout.setEmail("logoutuser@teste.com");
+        usuarioLogout.setUser("logoutuser");
+        usuarioLogout.setSenha(Util.md5("123456"));
+        serviceUsuario.salvarUsuario(usuarioLogout);
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("usuarioLogado", usuarioLogout);
+
+        mockMvc.perform(post("/logout").session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login/login"))
+                .andExpect(model().attributeExists("usuario"));
+    }
+
 }
