@@ -42,6 +42,22 @@ public class Aluno {
     @NotNull
     private Turno turno;
 
+    public Aluno(Long id, String nome, Curso curso, String matricula, Turno turno, Status status) {
+        this.id = id;
+        this.nome = nome;
+        this.curso = curso;
+        this.matricula = matricula;
+        this.turno = turno;
+        this.status = status;
+    }
+    public Aluno(){
+
+    }
+
+    public Aluno(Aluno aluno){
+
+    }
+
     public Long getId() {
         return id;
     }

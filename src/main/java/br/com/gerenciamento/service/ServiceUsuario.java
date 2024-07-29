@@ -18,7 +18,7 @@ public class ServiceUsuario {
 
     public void salvarUsuario(Usuario user) throws Exception {
         try {
-            if (usuarioRepository.findByEmail(user.getEmail()) != null) {
+            if (UsuarioRepository.findByEmail(user.getEmail()) != null) {
                 throw new EmailExistsException("Este email já esta cadastrado: " + user.getEmail());
             }
             user.setSenha(Util.md5(user.getSenha()));
