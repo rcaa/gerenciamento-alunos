@@ -18,52 +18,52 @@ public class UsuarioRepositoryTest {
     @Test
     public void testSaveUsuario() {
         Usuario usuario = new Usuario();
-        usuario.setEmail("test@example.com");
-        usuario.setUser("testuser");
-        usuario.setSenha("password");
+        usuario.setEmail("barbie@email.com");
+        usuario.setUser("BarbieMillicent");
+        usuario.setSenha("011960");
 
         Usuario savedUsuario = usuarioRepository.save(usuario);
 
         assertNotNull(savedUsuario.getId());
-        assertEquals("test@example.com", savedUsuario.getEmail());
+        assertEquals("barbie@email.com", savedUsuario.getEmail());
     }
 
     @Test
     public void testFindByEmail() {
         Usuario usuario = new Usuario();
-        usuario.setEmail("find@example.com");
-        usuario.setUser("finduser");
-        usuario.setSenha("password");
+        usuario.setEmail("barbara@email.com");
+        usuario.setUser("BarbaraRoberts");
+        usuario.setSenha("069101");
 
         usuarioRepository.save(usuario);
 
-        Usuario foundUsuario = usuarioRepository.findByEmail("find@example.com");
+        Usuario foundUsuario = usuarioRepository.findByEmail("barbara@email.com");
 
         assertNotNull(foundUsuario);
-        assertEquals("finduser", foundUsuario.getUser());
+        assertEquals("BarbaraRoberts", foundUsuario.getUser());
     }
 
     @Test
     public void testUpdateUsuario() {
         Usuario usuario = new Usuario();
-        usuario.setEmail("update@example.com");
-        usuario.setUser("updateuser");
-        usuario.setSenha("password");
+        usuario.setEmail("serafina@email.com");
+        usuario.setUser("SerafinaIan");
+        usuario.setSenha("082128");
 
         Usuario savedUsuario = usuarioRepository.save(usuario);
 
-        savedUsuario.setUser("updateduser");
+        savedUsuario.setUser("SerafinaIan");
         Usuario updatedUsuario = usuarioRepository.save(savedUsuario);
 
-        assertEquals("updateduser", updatedUsuario.getUser());
+        assertEquals("SerafinaIan", updatedUsuario.getUser());
     }
 
     @Test
     public void testDeleteUsuario() {
         Usuario usuario = new Usuario();
-        usuario.setEmail("delete@example.com");
-        usuario.setUser("deleteuser");
-        usuario.setSenha("password");
+        usuario.setEmail("ursula@email.com");
+        usuario.setUser("UrsulaBruxa");
+        usuario.setSenha("666999");
 
         Usuario savedUsuario = usuarioRepository.save(usuario);
 
