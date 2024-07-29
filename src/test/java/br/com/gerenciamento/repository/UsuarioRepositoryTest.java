@@ -48,4 +48,11 @@ public class UsuarioRepositoryTest {
         assertEquals("user1", foundUser.getUser());
     }
 
+    @Test
+    @Transactional
+    public void testFindByEmailNotFound() {
+        Usuario foundUser = usuarioRepository.findByEmail("nonexistent@example.com");
+        assertNull(foundUser);
+    }
+
 }
