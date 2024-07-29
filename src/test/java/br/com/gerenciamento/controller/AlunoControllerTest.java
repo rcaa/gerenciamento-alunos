@@ -73,4 +73,22 @@ public class AlunoControllerTest {
                 .andExpect(model().attributeExists("alunosList"));
     }
 
+    @Test
+    public void testEditarAluno() throws Exception {
+        mockMvc.perform(get("/editar/" + aluno.getId()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("Aluno/editar"))
+                .andExpect(model().attributeExists("aluno"));
+
+        mockMvc.perform(post("/editar")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", aluno.getId().toString())
+                .param("nome", "Aluno Editado")
+                .param("matricula", "123")
+                .param("curso", "DIREITO")
+                .param("status", "ATIVO")
+                .param("turno", "MATUTINO"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/alunos-adicionados"));
+    }
 }
