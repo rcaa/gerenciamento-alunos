@@ -36,4 +36,12 @@ public class UsuarioControllerTest {
                 .andExpect(model().attributeExists("usuario"));
     }
 
+    @Test
+    public void testCadastroPage() throws Exception {
+        mockMvc.perform(get("/cadastro"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login/cadastro"))
+                .andExpect(model().attributeExists("usuario"));
+    }
+
 }
