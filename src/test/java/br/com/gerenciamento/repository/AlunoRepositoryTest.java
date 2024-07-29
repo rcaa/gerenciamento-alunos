@@ -19,7 +19,7 @@ public class AlunoRepositoryTest {
     public void setUp() {
         alunoRepository.deleteAll();
         alunoRepository.save(new Aluno("João", "joao@exemplo.com", "ATIVO", "Matutino", "12345", "Biomedicina"));
-        alunoRepository.save(new Aluno("Maria", "maria@exemplo.com", "INATIVO", "Vespertino", "67890", "Administracao"));
+        alunoRepository.save(new Aluno("Maria", "maria@exemplo.com", "INATIVO", "Matutino", "67890", "Administracao"));
         alunoRepository.save(new Aluno("Carlos", "carlos@exemplo.com", "ATIVO", "Noturno", "11223", "Direito"));
     }
 

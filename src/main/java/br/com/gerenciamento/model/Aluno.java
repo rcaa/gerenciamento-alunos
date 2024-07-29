@@ -52,6 +52,9 @@ public class Aluno {
     public Aluno(String nome, String email, String status, String turno, String matricula, String curso) {
     }
 
+    public Aluno(String nome, String matricula, Curso curso, Status status, Turno turno) {
+    }
+
     public Long getId() {
         return id;
     }

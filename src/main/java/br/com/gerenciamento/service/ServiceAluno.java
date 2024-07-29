@@ -44,4 +44,6 @@ public class ServiceAluno {
     public void delete(Long id) {
     }
 
+    public void delete() {
+    }
 }
