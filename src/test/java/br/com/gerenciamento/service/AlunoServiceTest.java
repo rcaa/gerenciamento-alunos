@@ -44,4 +44,22 @@ public class AlunoServiceTest {
         Assert.assertThrows(ConstraintViolationException.class, () -> {
                 this.serviceAluno.save(aluno);});
     }
+
+    @Test
+    public void atualizarAluno() {
+        Aluno aluno = new Aluno();
+        aluno.setId(2L);
+        aluno.setNome("Pedro");
+        aluno.setTurno(Turno.MATUTINO);
+        aluno.setCurso(Curso.INFORMATICA);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("654321");
+        this.serviceAluno.save(aluno);
+
+        aluno.setNome("Pedro Silva");
+        this.serviceAluno.save(aluno);
+
+        Aluno alunoAtualizado = this.serviceAluno.getById(2L);
+        Assert.assertTrue(alunoAtualizado.getNome().equals("Pedro Silva"));
+    }
 }
