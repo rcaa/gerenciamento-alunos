@@ -44,4 +44,54 @@ public class AlunoServiceTest {
         Assert.assertThrows(ConstraintViolationException.class, () -> {
                 this.serviceAluno.save(aluno);});
     }
+    @Test
+    public void salvarAlunoSemCurso(){
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.MATUTINO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456789");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+    @Test
+    public void salvarAlunoSemTurno(){
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setCurso(Curso.DIREITO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("1234");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+    @Test
+    public void salvarAlunoSemMatricula(){
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.MATUTINO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setCurso(Curso.ENFERMAGEM);
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    public void alterarNomeAluno(){
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setMatricula("0098737");
+        aluno.setTurno(Turno.MATUTINO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setCurso(Curso.ENFERMAGEM);
+        this.serviceAluno.save(aluno);
+        aluno.setNome("Carla");
+        this.serviceAluno.save(aluno);
+        Aluno alunoRetorno = this.serviceAluno.getById(1L);
+        Assert.assertTrue(alunoRetorno.getNome().equals("Carla"));
+    }
+
 }
