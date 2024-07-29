@@ -16,7 +16,7 @@ public class ServiceUsuario {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public void salvarUsuario(Usuario user) throws Exception {
+    public Usuario salvarUsuario(Usuario user) throws Exception {
         try {
             if (usuarioRepository.findByEmail(user.getEmail()) != null) {
                 throw new EmailExistsException("Este email já esta cadastrado: " + user.getEmail());
@@ -26,6 +26,8 @@ public class ServiceUsuario {
             throw new CriptoExistsException("Error na criptografia da senha");
         }
         usuarioRepository.save(user);
+        
+        return user;
     }
 
     public Usuario loginUser(String user, String senha) {

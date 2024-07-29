@@ -4,6 +4,7 @@ import br.com.gerenciamento.enums.Curso;
 import br.com.gerenciamento.enums.Status;
 import br.com.gerenciamento.enums.Turno;
 import br.com.gerenciamento.model.Aluno;
+import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -36,7 +37,7 @@ public class AlunoServiceTest {
     @Test
     public void salvarSemNome() {
         Aluno aluno = new Aluno();
-        aluno.setId(1L);
+        aluno.setId(2L);
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
         aluno.setStatus(Status.ATIVO);
@@ -44,4 +45,63 @@ public class AlunoServiceTest {
         Assert.assertThrows(ConstraintViolationException.class, () -> {
                 this.serviceAluno.save(aluno);});
     }
+
+    @Test
+    public void salvarSemTurno() {
+        Aluno aluno = new Aluno();
+        aluno.setId(3L);
+        aluno.setNome("Vinicius");
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    @Transactional
+    public void salvarSemMatrícula() {
+        Aluno aluno = new Aluno();
+        aluno.setId(4L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+                this.serviceAluno.save(aluno);});
+    }
+
+    @Test
+    public void atualizarAluno() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        this.serviceAluno.save(aluno);
+
+        aluno.setNome("Paulo");
+        this.serviceAluno.save(aluno);
+
+        Aluno alunoAtualizado = this.serviceAluno.getById(1L);
+        Assert.assertTrue(alunoAtualizado.getNome().equals("Paulo"));
+    }
+
+    @Test
+    public void salvarSemStatus() {
+        Aluno aluno = new Aluno();
+        aluno.setId(5L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setMatricula("123456");
+        Assert.assertThrows(ConstraintViolationException.class, () -> {
+            this.serviceAluno.save(aluno);});
+    }
+
+    
+
 }
+
