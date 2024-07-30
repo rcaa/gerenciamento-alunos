@@ -1,15 +1,21 @@
 package br.com.gerenciamento.service;
 
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import br.com.gerenciamento.model.Usuario;
+import org.junit.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UsuarioServiceTest {
+
+    @Autowired
+    private ServiceUsuario serviceUsuario;
     
     @Test
-    public void loginUserUsuarioNaoExistente() {
+    public void loginUserUsuarioNaoExistente() throws Exception  {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setEmail("teste-nao-existe@email.com.br");
@@ -19,13 +25,13 @@ public class UsuarioServiceTest {
         try {
             this.serviceUsuario.loginUser(usuario.getUser(), usuario.getSenha());
             Assert.fail("Esperava-se a exceção UsuarioNaoEncontradoException");
-        } catch (UsuarioNaoEncontradoException e) {
+        } catch (IllegalArgumentException e) {
             Assert.assertEquals("Usuário não encontrado", e.getMessage());
         }
     }
 
     @Test
-    public void loginUserSenhaIncorreta() {
+    public void loginUserSenhaIncorreta() throws Exception  {
         Usuario usuario = new Usuario();
         usuario.setId(2L);
         usuario.setEmail("teste-senha-incorreta@email.com.br");
@@ -36,13 +42,13 @@ public class UsuarioServiceTest {
         try {
             this.serviceUsuario.loginUser(novoUsuario.getUser(), "senhaErrada");
             Assert.fail("Esperava-se a exceção SenhaIncorretaException");
-        } catch (SenhaIncorretaException e) {
+        } catch (IllegalArgumentException e) {
             Assert.assertEquals("Senha incorreta", e.getMessage());
         }
     }
 
     @Test
-    public void loginUserEmailEmBranco() {
+    public void loginUserEmailEmBranco() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(3L);
         usuario.setEmail("");
@@ -59,7 +65,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void loginUserEmailInvalido() {
+    public void loginUserEmailInvalido() throws Exception  {
         Usuario usuario = new Usuario();
         usuario.setId(4L);
         usuario.setEmail("email-invalido");
@@ -70,7 +76,7 @@ public class UsuarioServiceTest {
         try {
             this.serviceUsuario.loginUser(novoUsuario.getUser(), novoUsuario.getSenha());
             Assert.fail("Esperava-se a exceção EmailInvalidoException");
-        } catch (EmailInvalidoException e) {
+        } catch (IllegalArgumentException e) {
             Assert.assertEquals("Email inválido", e.getMessage());
         }
     }

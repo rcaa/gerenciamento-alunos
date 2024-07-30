@@ -4,8 +4,12 @@
     import br.com.gerenciamento.enums.Status;
     import br.com.gerenciamento.enums.Turno;
     import br.com.gerenciamento.model.Aluno;
+    import jakarta.persistence.EntityNotFoundException;
     import jakarta.validation.ConstraintViolationException;
-    import org.junit.*;
+
+import java.util.List;
+
+import org.junit.*;
     import org.junit.runner.RunWith;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.boot.test.context.SpringBootTest;
@@ -51,7 +55,7 @@
             aluno.setId(2L);
             aluno.setNome("Ana");
             aluno.setTurno(Turno.MATUTINO);
-            aluno.setCurso(Curso.ENGENHARIA);
+            aluno.setCurso(Curso.BIOMEDICINA);
             aluno.setStatus(Status.ATIVO);
             aluno.setMatricula("654321");
             this.serviceAluno.save(aluno);
@@ -65,7 +69,7 @@
             Aluno aluno = new Aluno();
             aluno.setId(3L);
             aluno.setNome("Carlos");
-            aluno.setTurno(Turno.VESPERTINO);
+            aluno.setTurno(Turno.MATUTINO);
             aluno.setCurso(Curso.DIREITO);
             aluno.setStatus(Status.ATIVO);
             aluno.setMatricula("111222");
@@ -84,12 +88,12 @@
             aluno.setId(4L);
             aluno.setNome("Mariana");
             aluno.setTurno(Turno.NOTURNO);
-            aluno.setCurso(Curso.MEDICINA);
+            aluno.setCurso(Curso.BIOMEDICINA);
             aluno.setStatus(Status.ATIVO);
             aluno.setMatricula("789012");
             this.serviceAluno.save(aluno);
 
-            this.serviceAluno.remove(aluno.getId());
+            this.serviceAluno.deleteById(aluno.getId());
 
             Assert.assertThrows(EntityNotFoundException.class, () -> {
                 this.serviceAluno.getById(4L);
@@ -110,13 +114,13 @@
             Aluno aluno2 = new Aluno();
             aluno2.setId(6L);
             aluno2.setNome("Fernanda");
-            aluno2.setTurno(Turno.VESPERTINO);
-            aluno2.setCurso(Curso.QUIMICA);
+            aluno2.setTurno(Turno.MATUTINO);
+            aluno2.setCurso(Curso.BIOMEDICINA);
             aluno2.setStatus(Status.ATIVO);
             aluno2.setMatricula("555666");
             this.serviceAluno.save(aluno2);
         
-            List<Aluno> alunos = this.serviceAluno.getAll();
+            List<Aluno> alunos = this.serviceAluno.findAll();
             Assert.assertTrue(alunos.size() >= 2);
             Assert.assertTrue(alunos.stream().anyMatch(a -> a.getNome().equals("João")));
             Assert.assertTrue(alunos.stream().anyMatch(a -> a.getNome().equals("Fernanda")));
