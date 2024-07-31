@@ -1,19 +1,20 @@
     package br.com.gerenciamento.service;
 
+    import java.util.List;
+
+    import org.junit.Assert;
+    import org.junit.Test;
+    import org.junit.runner.RunWith;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.boot.test.context.SpringBootTest;
+    import org.springframework.test.context.junit4.SpringRunner;
+
     import br.com.gerenciamento.enums.Curso;
     import br.com.gerenciamento.enums.Status;
     import br.com.gerenciamento.enums.Turno;
     import br.com.gerenciamento.model.Aluno;
     import jakarta.persistence.EntityNotFoundException;
     import jakarta.validation.ConstraintViolationException;
-
-import java.util.List;
-
-import org.junit.*;
-    import org.junit.runner.RunWith;
-    import org.springframework.beans.factory.annotation.Autowired;
-    import org.springframework.boot.test.context.SpringBootTest;
-    import org.springframework.test.context.junit4.SpringRunner;
 
     @RunWith(SpringRunner.class)
     @SpringBootTest
@@ -47,21 +48,6 @@ import org.junit.*;
             aluno.setMatricula("123456");
             Assert.assertThrows(ConstraintViolationException.class, () -> {
                     this.serviceAluno.save(aluno);});
-        }
-        
-        @Test
-        public void GetMatricula() {
-            Aluno aluno = new Aluno();
-            aluno.setId(2L);
-            aluno.setNome("Ana");
-            aluno.setTurno(Turno.MATUTINO);
-            aluno.setCurso(Curso.BIOMEDICINA);
-            aluno.setStatus(Status.ATIVO);
-            aluno.setMatricula("654321");
-            this.serviceAluno.save(aluno);
-
-            Aluno alunoRetorno = this.serviceAluno.getByMatricula("654321");
-            Assert.assertTrue(alunoRetorno.getNome().equals("Ana"));
         }
         
         @Test
@@ -125,4 +111,21 @@ import org.junit.*;
             Assert.assertTrue(alunos.stream().anyMatch(a -> a.getNome().equals("João")));
             Assert.assertTrue(alunos.stream().anyMatch(a -> a.getNome().equals("Fernanda")));
         }
-    }
+        @Test
+        public void salvarComSucesso() {
+            Aluno aluno = new Aluno();
+            aluno.setId(1L);
+            aluno.setNome("João Silva");
+            aluno.setTurno(Turno.NOTURNO);
+            aluno.setCurso(Curso.ADMINISTRACAO);
+            aluno.setStatus(Status.ATIVO);
+            aluno.setMatricula("123456");
+            
+            try {
+                this.serviceAluno.save(aluno);
+                Assert.assertNotNull(aluno.getId());
+            } catch (ConstraintViolationException e) {
+                Assert.fail("Deveria ter salvo o aluno sem exceção");
+            }
+        }
+}

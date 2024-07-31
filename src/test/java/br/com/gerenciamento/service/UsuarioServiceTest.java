@@ -1,11 +1,13 @@
 package br.com.gerenciamento.service;
 
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import br.com.gerenciamento.model.Usuario;
-import org.junit.*;
+    import org.junit.Assert;
+    import org.junit.Test;
+    import org.junit.runner.RunWith;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.boot.test.context.SpringBootTest;
+    import org.springframework.test.context.junit4.SpringRunner;
+
+    import br.com.gerenciamento.model.Usuario;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,10 +39,10 @@ public class UsuarioServiceTest {
         usuario.setEmail("teste-senha-incorreta@email.com.br");
         usuario.setUser("teste-senha-incorreta");
         usuario.setSenha("12345");
-        Usuario novoUsuario = this.serviceUsuario.salvarUsuario(usuario);
+        this.serviceUsuario.salvarUsuario(usuario);
 
         try {
-            this.serviceUsuario.loginUser(novoUsuario.getUser(), "senhaErrada");
+            this.serviceUsuario.loginUser(usuario.getUser(), "senhaErrada");
             Assert.fail("Esperava-se a exceção SenhaIncorretaException");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals("Senha incorreta", e.getMessage());
@@ -54,10 +56,10 @@ public class UsuarioServiceTest {
         usuario.setEmail("");
         usuario.setUser("teste-email-branco");
         usuario.setSenha("12345");
-        Usuario novoUsuario = this.serviceUsuario.salvarUsuario(usuario);
+        this.serviceUsuario.salvarUsuario(usuario);
 
         try {
-            this.serviceUsuario.loginUser(novoUsuario.getUser(), novoUsuario.getSenha());
+            this.serviceUsuario.loginUser(usuario.getUser(), usuario.getSenha());
             Assert.fail("Esperava-se a exceção IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals("O usuário não pode ser vazio", e.getMessage());
@@ -71,15 +73,13 @@ public class UsuarioServiceTest {
         usuario.setEmail("email-invalido");
         usuario.setUser("teste-email-invalido");
         usuario.setSenha("12345");
-        Usuario novoUsuario = this.serviceUsuario.salvarUsuario(usuario);
+        this.serviceUsuario.salvarUsuario(usuario);
 
         try {
-            this.serviceUsuario.loginUser(novoUsuario.getUser(), novoUsuario.getSenha());
+            this.serviceUsuario.loginUser(usuario.getUser(), usuario.getSenha());
             Assert.fail("Esperava-se a exceção EmailInvalidoException");
         } catch (IllegalArgumentException e) {
             Assert.assertEquals("Email inválido", e.getMessage());
         }
     }
-
-
 }

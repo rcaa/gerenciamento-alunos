@@ -1,11 +1,12 @@
 package br.com.gerenciamento.service;
 
-import br.com.gerenciamento.model.Aluno;
-import br.com.gerenciamento.repository.AlunoRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import br.com.gerenciamento.model.Aluno;
+import br.com.gerenciamento.repository.AlunoRepository;
 
 @Service
 public class ServiceAluno {
@@ -40,4 +41,5 @@ public class ServiceAluno {
     public List<Aluno> findByNomeContainingIgnoreCase(String nome) {
         return this.alunoRepository.findByNomeContainingIgnoreCase(nome);
     }
-}
+ }
+ 
