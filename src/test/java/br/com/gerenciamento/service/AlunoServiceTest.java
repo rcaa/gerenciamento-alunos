@@ -39,7 +39,6 @@ public class AlunoServiceTest {
     @Test
     public void salvarSemNome() {
         Aluno aluno = new Aluno();
-        aluno.setId(1L);
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
         aluno.setStatus(Status.ATIVO);
