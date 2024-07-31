@@ -42,6 +42,42 @@ public class AlunoServiceTest {
         aluno.setStatus(Status.ATIVO);
         aluno.setMatricula("123456");
         Assert.assertThrows(ConstraintViolationException.class, () -> {
-                this.serviceAluno.save(aluno);});
+            this.serviceAluno.save(aluno);
+        });
+    }
+
+    @Test
+    public void atualizarAluno() {
+        Aluno aluno = new Aluno();
+        aluno.setId(2L);
+        aluno.setNome("Carlos");
+        aluno.setTurno(Turno.MATUTINO);
+        aluno.setCurso(Curso.CONTABILIDADE);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("654321");
+        this.serviceAluno.save(aluno);
+
+        aluno.setNome("Carlos Atualizado");
+        this.serviceAluno.save(aluno);
+
+        Aluno alunoAtualizado = this.serviceAluno.getById(2L);
+        Assert.assertTrue(alunoAtualizado.getNome().equals("Carlos Atualizado"));
+    }
+
+    @Test
+    public void deletarAluno() {
+        Aluno aluno = new Aluno();
+        aluno.setId(3L);
+        aluno.setNome("Ana");
+        aluno.setTurno(Turno.MATUTINO);
+        aluno.setCurso(Curso.ENFERMAGEM);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("789012");
+        this.serviceAluno.save(aluno);
+
+        this.serviceAluno.delete(3L);
+
+        Aluno alunoDeletado = this.serviceAluno.getById(3L);
+        Assert.assertNull(alunoDeletado);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceAluno {
@@ -22,10 +23,11 @@ public class ServiceAluno {
     }
 
     public Aluno getById(Long id) {
-        return this.alunoRepository.findById(id).get();
+        Optional<Aluno> aluno = this.alunoRepository.findById(id);
+        return aluno.orElse(null);
     }
 
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         this.alunoRepository.deleteById(id);
     }
 

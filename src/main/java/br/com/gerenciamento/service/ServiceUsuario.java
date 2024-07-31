@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service
 public class ServiceUsuario {
@@ -16,16 +17,25 @@ public class ServiceUsuario {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public void salvarUsuario(Usuario user) throws Exception {
+    public void save(Usuario user) throws Exception {
         try {
             if (usuarioRepository.findByEmail(user.getEmail()) != null) {
-                throw new EmailExistsException("Este email já esta cadastrado: " + user.getEmail());
+                throw new EmailExistsException("Este email já está cadastrado: " + user.getEmail());
             }
             user.setSenha(Util.md5(user.getSenha()));
         } catch (NoSuchAlgorithmException e) {
-            throw new CriptoExistsException("Error na criptografia da senha");
+            throw new CriptoExistsException("Erro na criptografia da senha");
         }
         usuarioRepository.save(user);
+    }
+
+    public Usuario getById(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.orElse(null);
+    }
+
+    public void delete(Long id) {
+        usuarioRepository.deleteById(id);
     }
 
     public Usuario loginUser(String user, String senha) {
