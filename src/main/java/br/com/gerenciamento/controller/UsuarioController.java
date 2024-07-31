@@ -18,9 +18,13 @@ import java.security.NoSuchAlgorithmException;
 @Controller
 public class UsuarioController {
 
-
     @Autowired
     private ServiceUsuario serviceUsuario;
+
+    // Setter para permitir a injeção de mocks nos testes
+    public void setServiceUsuario(ServiceUsuario serviceUsuario) {
+        this.serviceUsuario = serviceUsuario;
+    }
 
     @GetMapping("/")
     public ModelAndView login() {
@@ -49,7 +53,7 @@ public class UsuarioController {
     @PostMapping("/salvarUsuario")
     public ModelAndView cadastrar(Usuario usuario) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
-        serviceUsuario.salvarUsuario(usuario);
+        serviceUsuario.save(usuario);
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
@@ -58,14 +62,14 @@ public class UsuarioController {
     public ModelAndView login(@Valid Usuario usuario, BindingResult br,
                               HttpSession session) throws NoSuchAlgorithmException {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("usuario", new Usuario());
-        if(br.hasErrors()) {
+        if (br.hasErrors()) {
             modelAndView.setViewName("login/login");
+            return modelAndView;
         }
 
         Usuario userLogin = serviceUsuario.loginUser(usuario.getUser(), Util.md5(usuario.getSenha()));
-        if(userLogin == null) {
-            modelAndView.addObject("msg","Usuario não encontrado. Tente novamente");
+        if (userLogin == null) {
+            modelAndView.addObject("msg", "Usuário não encontrado. Tente novamente");
             return cadastrar();
         } else {
             session.setAttribute("usuarioLogado", userLogin);

@@ -29,12 +29,12 @@ public class AlunoController {
         return modelAndView;
     }
 
-    @PostMapping("InsertAlunos")
+    @PostMapping("/inserirAluno")
     public ModelAndView inserirAluno(@Valid Aluno aluno, BindingResult bindingResult) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("Aluno/formAluno");
-            modelAndView.addObject("aluno");
+            modelAndView.addObject("aluno", aluno);
         } else {
             modelAndView.setViewName("redirect:/alunos-adicionados");
             serviceAluno.save(aluno);
@@ -42,7 +42,8 @@ public class AlunoController {
         return modelAndView;
     }
 
-    @GetMapping("alunos-adicionados")
+
+    @GetMapping("/alunos-adicionados")
     public ModelAndView listagemAlunos() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Aluno/listAlunos");
@@ -51,7 +52,7 @@ public class AlunoController {
     }
 
     @GetMapping("/editar/{id}")
-    public ModelAndView editar(@PathVariable("id")Long id) {
+    public ModelAndView editar(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Aluno/editar");
         Aluno aluno = serviceAluno.getById(id);
@@ -69,18 +70,18 @@ public class AlunoController {
 
     @GetMapping("/remover/{id}")
     public String removerAluno(@PathVariable("id") Long id) {
-        serviceAluno.deleteById(id);
+        serviceAluno.delete(id);
         return "redirect:/alunos-adicionados";
     }
 
-    @GetMapping("filtro-alunos")
+    @GetMapping("/filtro-alunos")
     public ModelAndView filtroAlunos() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Aluno/filtroAlunos");
         return modelAndView;
     }
 
-    @GetMapping("alunos-ativos")
+    @GetMapping("/alunos-ativos")
     public ModelAndView listaAlunosAtivos() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Aluno/alunos-ativos");
@@ -88,7 +89,7 @@ public class AlunoController {
         return modelAndView;
     }
 
-    @GetMapping("alunos-inativos")
+    @GetMapping("/alunos-inativos")
     public ModelAndView listaAlunosInativos() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Aluno/alunos-inativos");
