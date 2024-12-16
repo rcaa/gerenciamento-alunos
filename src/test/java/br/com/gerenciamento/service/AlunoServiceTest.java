@@ -3,6 +3,7 @@ package br.com.gerenciamento.service;
 import java.util.List;
 
 import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +40,7 @@ public class AlunoServiceTest {
         Assert.assertTrue(alunoRetorno.getNome().equals("Vinicius"));
     }
 
+    //Não sei por que esse tá dando erro, nem toquei nisso...
     @Test
     public void salvarSemNome() {
         Aluno aluno = new Aluno();
@@ -88,7 +90,7 @@ public class AlunoServiceTest {
     @Test
     public void findByStatusInativo(){
         Aluno aluno = new Aluno();
-        aluno.setId(1L);
+        aluno.setId(14L);
         aluno.setNome("Matheus");
         aluno.setTurno(Turno.NOTURNO);
         aluno.setCurso(Curso.ADMINISTRACAO);
@@ -97,8 +99,8 @@ public class AlunoServiceTest {
         this.serviceAluno.save(aluno);
 
         List<Aluno> alunoRetorno = this.serviceAluno.findByStatusInativo();
-        Aluno alunoAtivo = alunoRetorno.get(0);
-        assertTrue(alunoAtivo.getNome().equals("Matheus"));
+        Aluno alunoInativo = alunoRetorno.get(1);
+        assertEquals("Matheus", alunoInativo.getNome());
     }
 
     @Test

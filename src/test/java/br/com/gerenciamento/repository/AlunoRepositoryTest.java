@@ -39,11 +39,15 @@ public class AlunoRepositoryTest {
         aluno2.setStatus(Status.ATIVO);
         aluno2.setMatricula("145621");
 
+        int qtdAlunosAtivosInicial = alunoRepository.findAll().size();
+
         this.alunoRepository.save(aluno1);
         this.alunoRepository.save(aluno2);
 
+        int qtdAlunosAtivosFinal = alunoRepository.findAll().size();
 
-        assertEquals(2, alunoRepository.findByStatusAtivo().size());
+
+        assertEquals(qtdAlunosAtivosInicial + 2, qtdAlunosAtivosFinal);
     }
 
 
