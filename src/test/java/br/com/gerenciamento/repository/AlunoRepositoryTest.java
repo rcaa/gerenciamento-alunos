@@ -53,9 +53,7 @@ public class AlunoRepositoryTest {
     
         List<Aluno> alunosInativos = alunoRepository.findByStatusInativo();
         assertFalse(alunosInativos.isEmpty());
-    
-        // Verificando se o aluno inativo está na lista comparando atributos
-        assertTrue(alunosInativos.stream().anyMatch(a ->
+            assertTrue(alunosInativos.stream().anyMatch(a ->
             a.getNome().equals(alunoInativo.getNome()) &&
             a.getMatricula().equals(alunoInativo.getMatricula()) &&
             a.getStatus().equals(alunoInativo.getStatus()) &&
