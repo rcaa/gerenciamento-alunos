@@ -1,13 +1,17 @@
 package br.com.gerenciamento.repository;
 
+import static org.junit.Assert.assertNull;
+import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.gerenciamento.model.Usuario;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class UsuarioRepositoryTest {
 
@@ -15,40 +19,54 @@ public class UsuarioRepositoryTest {
     private UsuarioRepository usuarioRepository;
 
     @Test
-    public void testFindByEmail() {
+    public void procurarEmailInexistente(){
         Usuario usuario = new Usuario();
         usuario.setId(2L);
-        usuario.setEmail("jeff23@gmail.com");
-        usuario.setUser("JeffersonAlan");
-        usuario.setSenha("jeff112233");
+        usuario.setEmail("vinicius123@gmail.com");
+        usuario.setUser("Vinicius");
+        usuario.setSenha("vinicius123");
 
         this.usuarioRepository.save(usuario);
 
-        assertEquals("JeffersonAlan", usuarioRepository.findByEmail("jeff23@gmail.com").getUser());
+        assertNull(usuarioRepository.buscarLogin("Fejj", "123"));
     }
-
     @Test
-    public void testFindByEmail_NonExistentEmail() {
-        Usuario foundUsuario = usuarioRepository.findByEmail("naoexiste@example.com");
-        assertNull(foundUsuario);
-    }
-
-    @Test
-    public void buscarLogin(){
+    public void procurarLoginValido() {
         Usuario usuario = new Usuario();
-        usuario.setId(2L);
-        usuario.setEmail("jeff23@gmail.com");
-        usuario.setUser("JeffersonAlan");
-        usuario.setSenha("jeff112233");
-
+        usuario.setEmail("vinicius123@gmail.com");
+        usuario.setUser("Vinicius");
+        usuario.setSenha("vinicius123");
         this.usuarioRepository.save(usuario);
 
-        assertEquals("jeff23@gmail.com", usuarioRepository.buscarLogin("JeffersonAlan", "jeff112233").getEmail());
+        Usuario encontrado = usuarioRepository.buscarLogin("Vinicius", "vinicius123");
+        assertNotNull(encontrado);
+        assertEquals("vinicius123@gmail.com", encontrado.getEmail());
     }
 
     @Test
-    public void testBuscarLogin_InvalidCredentials() {
-        Usuario foundUsuario = usuarioRepository.buscarLogin("jefferson121123", "senhaErrada");
-        assertNull(foundUsuario);
+        public void procurarLoginComSenhaIncorreta() {
+        Usuario usuario = new Usuario();
+        usuario.setEmail("vinicius123@gmail.com");
+        usuario.setUser("Vinicius");
+        usuario.setSenha("vinicius123");
+        this.usuarioRepository.save(usuario);
+        Usuario encontrado = usuarioRepository.buscarLogin("Vinicius", "123");
+        assertNull(encontrado);
     }
+
+    @Test
+    public void procurarLoginComUsuarioInvalido() {
+        Usuario usuario = new Usuario();
+        usuario.setEmail("vinicius123@gmail.com");
+        usuario.setUser("Vinicius");
+        usuario.setSenha("senha123");
+        this.usuarioRepository.save(usuario);
+    
+        Usuario resultado = usuarioRepository.buscarLogin("iniius", "senha123");
+    
+        assertNull("O método deveria retornar null para um nome de usuário incorreto.", resultado);
+    }
+    
+    
+
 }

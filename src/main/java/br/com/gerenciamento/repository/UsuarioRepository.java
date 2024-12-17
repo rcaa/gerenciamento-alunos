@@ -1,8 +1,9 @@
 package br.com.gerenciamento.repository;
 
-import br.com.gerenciamento.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import br.com.gerenciamento.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
