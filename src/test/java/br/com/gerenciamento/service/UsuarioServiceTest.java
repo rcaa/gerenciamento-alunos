@@ -1,89 +1,70 @@
 package br.com.gerenciamento.service;
 
-import org.junit.Assert;
-import org.junit.Test;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import java.security.NoSuchAlgorithmException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import br.com.gerenciamento.exception.CriptoExistsException;
 import br.com.gerenciamento.exception.EmailExistsException;
 import br.com.gerenciamento.model.Usuario;
-import jakarta.validation.ConstraintViolationException;
+import br.com.gerenciamento.repository.UsuarioRepository;
+import br.com.gerenciamento.util.Util;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class UsuarioServiceTest {
 
-    @Autowired
+    @InjectMocks
     private ServiceUsuario serviceUsuario;
 
-    @Test
-    public void salvarUsuarioValido() throws Exception {
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
-        usuario.setEmail("rafaela@gmail.com");
-        usuario.setUser("rafaela");
-        usuario.setSenha("rafaela123");
+    @Mock
+    private UsuarioRepository usuarioRepository;
 
-        assertDoesNotThrow(() -> {
-            serviceUsuario.salvarUsuario(usuario);
-        });
+    private Usuario usuario;
 
-        Usuario usuarioDuplicado = new Usuario();
-        usuarioDuplicado.setEmail("rafaela@gmail.com");
-        usuarioDuplicado.setUser("rafaela2");
-        usuarioDuplicado.setSenha("senha123");
-
-        Assert.assertThrows(EmailExistsException.class, () -> {
-            serviceUsuario.salvarUsuario(usuarioDuplicado);
-        });
+    @BeforeEach
+    public void setUp() {
+        usuario = new Usuario();
+        usuario.setEmail("jeff@email.com");
+        usuario.setUser("jefferson");
+        usuario.setSenha("jeff123");
     }
 
     @Test
-    public void salvarUsuarioComEmailExistente() throws Exception {
-        Usuario usuarioExistente = new Usuario();
-        usuarioExistente.setEmail("rafaela@gmail.com");
-        usuarioExistente.setUser("rafaela");
-        usuarioExistente.setSenha("rafaela123");
-
-        serviceUsuario.salvarUsuario(usuarioExistente);
-
-        Usuario usuarioDuplicado = new Usuario();
-        usuarioDuplicado.setEmail("rafaela@gmail.com");
-        usuarioDuplicado.setUser("rafinha");
-        usuarioDuplicado.setSenha("senha456");
-
-        Assert.assertThrows(EmailExistsException.class, () -> {
-            serviceUsuario.salvarUsuario(usuarioDuplicado);
-        });
-    }
-
-    @Test
-    public void buscarUsuarioPorUser() throws Exception {
-        Usuario usuario = new Usuario();
-        usuario.setEmail("rafaela@gmail.com");
-        usuario.setUser("rafaela");
-        usuario.setSenha("rafaela123");
-    
+    public void salvarUsuarioComSucesso() throws Exception {
+        when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(null);
         serviceUsuario.salvarUsuario(usuario);
-
-        Usuario usuarioBuscado = serviceUsuario.loginUser("rafaela", "rafaela123");
-
-        Assert.assertNotNull(usuarioBuscado);
-        Assert.assertEquals("rafaela", usuarioBuscado.getUser());
+        verify(usuarioRepository, times(1)).save(usuario);
     }
 
     @Test
-    public void salvarUsuarioSemNomeDeUsuario() {
-        Usuario usuario = new Usuario();
-        usuario.setEmail("rafaela@gmail.com");
-        usuario.setUser(null);
-        usuario.setSenha("rafaela123");
-    
-        Assert.assertThrows(ConstraintViolationException.class, () -> {
-            serviceUsuario.salvarUsuario(usuario);
-        });
+    public void lancarExcecaoQuandoEmailJaExistir() {
+        when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(new Usuario());
+        assertThrows(EmailExistsException.class, () -> serviceUsuario.salvarUsuario(usuario));
+    }
+
+    @Test
+    public void lancarExcecaoDeCriptografiaQuandoErroCripto() throws NoSuchAlgorithmException {
+        when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(null);
+        Mockito.mockStatic(Util.class).when(() -> Util.md5(usuario.getSenha())).thenThrow(new NoSuchAlgorithmException());
+        assertThrows(CriptoExistsException.class, () -> serviceUsuario.salvarUsuario(usuario));
+    }
+
+    @Test
+    public void fazerLoginComUsuarioValido() {
+        when(usuarioRepository.buscarLogin(usuario.getUser(), usuario.getSenha())).thenReturn(usuario);
+        Usuario usuarioLogado = serviceUsuario.loginUser(usuario.getUser(), usuario.getSenha());
+        assertNotNull(usuarioLogado);
+        assertEquals(usuario.getUser(), usuarioLogado.getUser());
     }
 }
