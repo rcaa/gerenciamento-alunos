@@ -18,9 +18,6 @@ public class AlunoRepositoryTest {
     @Autowired
     private AlunoRepository alunoRepository;
 
-    private Aluno alunoAtivo;
-    private Aluno alunoInativo;
-
     @Test
     public void testFindByStatusAtivo() {
         Aluno alunoAtivo = new Aluno();
