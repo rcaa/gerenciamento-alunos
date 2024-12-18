@@ -1,7 +1,5 @@
 package br.com.gerenciamento.controller;
 
-import static org.junit.Assert.assertThat;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +27,7 @@ public class AlunoControllerTest {
 
     @Test
     public void inserirAluno() {
-        // Cria um novo aluno para teste
+        // Arrange
         Aluno novoAluno = new Aluno();
         novoAluno.setNome("João Silva");
         novoAluno.setMatricula("123456");
@@ -37,16 +35,16 @@ public class AlunoControllerTest {
         novoAluno.setStatus(Status.ATIVO);
         novoAluno.setTurno(Turno.MATUTINO);
 
-        // Insere o aluno no banco de dados
+        // Act
         ResponseEntity<String> response = testRestTemplate.postForEntity("/InsertAlunos", novoAluno, String.class);
 
-        // Verifica se o aluno foi inserido corretamente
+        // Assert
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void listagemAlunos() {
-        // Cadastro de um aluno para teste
+        // Arrange
         Aluno novoAluno = new Aluno();
         novoAluno.setNome("Maria Silva");
         novoAluno.setMatricula("654321");
@@ -55,15 +53,33 @@ public class AlunoControllerTest {
         novoAluno.setTurno(Turno.MATUTINO);
         this.serviceAluno.save(novoAluno);
 
-        // Verifica se a listagem de alunos está funcionando corretamente
+        // Act
         ResponseEntity<String> response = testRestTemplate.getForEntity("/alunos-adicionados", String.class);
+        
+        // Assert
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assert.assertTrue(response.getBody().contains("Maria Silva"));
     }
 
-    // @Test
-    // public void editar() {
-    // }
+    @Test
+    public void editar() {
+        // Arrange
+        Aluno novoAluno = new Aluno();
+        novoAluno.setNome("Maria Silva");
+        novoAluno.setMatricula("654321");
+        novoAluno.setCurso(Curso.INFORMATICA);
+        novoAluno.setStatus(Status.ATIVO);
+        novoAluno.setTurno(Turno.MATUTINO);
+        
+        this.serviceAluno.save(novoAluno);
+
+        // Act
+        ResponseEntity<String> response = testRestTemplate.postForEntity("/editar", novoAluno, String.class);
+
+        // Assert
+        Assert.assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        Assert.assertTrue(response.getHeaders().getLocation().getPath().contains("/alunos-adicionados"));
+    }
 
     // @Test
     // public void removerAluno() {
