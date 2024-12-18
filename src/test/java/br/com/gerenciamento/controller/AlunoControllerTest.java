@@ -81,7 +81,21 @@ public class AlunoControllerTest {
         Assert.assertTrue(response.getHeaders().getLocation().getPath().contains("/alunos-adicionados"));
     }
 
-    // @Test
-    // public void removerAluno() {
-    // }
+    @Test
+    public void removerAluno() {
+        // Arrange
+        Aluno novoAluno = new Aluno();
+        novoAluno.setNome("Maria Silva");
+        novoAluno.setMatricula("654321");
+        novoAluno.setCurso(Curso.INFORMATICA);
+        novoAluno.setStatus(Status.ATIVO);
+        novoAluno.setTurno(Turno.MATUTINO);
+        this.serviceAluno.save(novoAluno);
+
+        // Act
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/remover/" + novoAluno.getId(), String.class);
+
+        // Assert
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 }
