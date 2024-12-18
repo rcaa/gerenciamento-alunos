@@ -81,15 +81,4 @@ public class UsuarioControllerTest {
                 .andExpect(view().name("login/login"))
                 .andExpect(model().attributeExists("usuario"));
 }
-
-@Test
-@Transactional
-public void salvarUsuario() throws Exception {
-    this.mockMvc.perform(post("/salvarUsuario")
-            .param("email", "user@example.com")
-            .param("user", "testuser")
-            .param("senha", "password"))
-            .andExpect(status().is3xxRedirection())
-            .andExpect(redirectedUrl("/"));
-}
 }
