@@ -34,6 +34,23 @@ public class UsuarioServiceTest {
     }
 
     @Test
+    public void deveriaSalvarUsuario() {
+        Usuario user = new Usuario();
+        user.setEmail("john@doe.com");
+        user.setSenha("1234");
+
+        try {
+            this.serviceUsuario.salvarUsuario(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Assert.fail("Não deveria lançar exceção");
+        }
+
+        Assert.assertNotNull(user.getId());
+    }
+
+    @Test
     public void deveriaLogarUsuario() {
         Usuario user = new Usuario();
         user.setEmail("john@doe.com");
