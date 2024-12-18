@@ -40,4 +40,8 @@ public class ServiceAluno {
     public List<Aluno> findByNomeContainingIgnoreCase(String nome) {
         return this.alunoRepository.findByNomeContainingIgnoreCase(nome);
     }
+
+    public void deleteAll() {
+        alunoRepository.deleteAll();  // Chama o deleteAll() do repositório
+    }
 }
