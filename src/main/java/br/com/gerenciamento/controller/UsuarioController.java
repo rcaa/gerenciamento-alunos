@@ -56,22 +56,26 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ModelAndView login(@Valid Usuario usuario, BindingResult br,
-                              HttpSession session) throws NoSuchAlgorithmException {
+                            HttpSession session) throws NoSuchAlgorithmException {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("usuario", new Usuario());
-        if(br.hasErrors()) {
+
+        if (br.hasErrors()) {
             modelAndView.setViewName("login/login");
+            return modelAndView;
         }
 
         Usuario userLogin = serviceUsuario.loginUser(usuario.getUser(), Util.md5(usuario.getSenha()));
-        if(userLogin == null) {
-            modelAndView.addObject("msg","Usuario não encontrado. Tente novamente");
-            return cadastrar();
+        if (userLogin == null) {
+            modelAndView.setViewName("login/login"); // Retorna à tela de login
+            modelAndView.addObject("msg", "Usuario não encontrado. Tente novamente"); // Adiciona mensagem de erro
+            return modelAndView; // Retorna o ModelAndView configurado
         } else {
             session.setAttribute("usuarioLogado", userLogin);
             return index();
         }
     }
+
 
     @PostMapping("/logout")
     public ModelAndView logout(HttpSession session) {
