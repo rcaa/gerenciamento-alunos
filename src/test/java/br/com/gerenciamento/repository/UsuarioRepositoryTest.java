@@ -56,4 +56,13 @@ public class UsuarioRepositoryTest {
         Assert.assertEquals(usuario.getEmail(), usuarioEncontrado.getEmail());
         Assert.assertEquals(usuario.getSenha(), usuarioEncontrado.getSenha());
     }
+
+    @Test
+    public void deveriaRetornarNullQuandoNaoEncontrarUsuarioPorEmailESenha() {
+        // Act
+        Usuario usuarioEncontrado = usuarioRepository.findByEmailAndSenha("john@doe.com", "123456");
+
+        // Assert
+        Assert.assertNull(usuarioEncontrado);
+    }
 }
