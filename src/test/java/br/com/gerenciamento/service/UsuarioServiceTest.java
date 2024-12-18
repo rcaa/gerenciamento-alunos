@@ -68,4 +68,23 @@ public class UsuarioServiceTest {
 
         Assert.assertNotNull(userRetorno);
     }
+
+    @Test
+    public void deveriaRetornarNullParaLogarUsuario() {
+        Usuario user = new Usuario();
+        user.setEmail("john@doe.com");
+        user.setSenha("1234");
+
+        try {
+            this.serviceUsuario.salvarUsuario(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Assert.fail("Não deveria lançar exceção");
+        }
+
+        Usuario userRetorno = this.serviceUsuario.loginUser(user.getEmail(), "12345");
+
+        Assert.assertNull(userRetorno);
+    }
 }
