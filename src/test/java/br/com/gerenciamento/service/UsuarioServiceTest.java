@@ -17,7 +17,7 @@ public class UsuarioServiceTest {
     private ServiceUsuario serviceUsuario;
 
     @Test
-    public void deveriaLancarEmailExistsException() {
+    public void deveriaLancarEmailExistsExceptionParaSalvarUsuario() {
         Usuario user = new Usuario();
         user.setEmail("john@doe.com");
         user.setSenha("1234");
