@@ -31,6 +31,12 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<!-- adicionando o playwright para teste extra -->
+			<groupId>com.microsoft.playwright</groupId>
+			<artifactId>playwright</artifactId>
+			<version>1.39.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -46,7 +52,7 @@
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.7.3</version>
+			<version>2.7.4</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -80,6 +86,14 @@
 
 	<build>
 		<plugins>
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>exec-maven-plugin</artifactId>
+			<version>3.1.0</version>
+			<configuration>
+				<mainClass>br.com.gerenciamento.acceptance.AlunoAcceptanceTest</mainClass>
+			</configuration>
+		</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
