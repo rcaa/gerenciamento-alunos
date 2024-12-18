@@ -58,6 +58,26 @@ public class UsuarioControllerTest {
     }
 
     @Test
+    public void deveriaRedirecionarParaCadastroCasoLoginFalhe() {
+        // Arrange
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("user", "john_doe");
+        form.add("senha", "123456");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
+
+        // Act
+        ResponseEntity<String> response = testRestTemplate.postForEntity("/login", request, String.class);
+
+        // Assert
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assert.assertTrue(response.getBody().contains("Cadastro de Usuário"));
+    }
+
+    @Test
     public void cadastrar() {
         // Arrange
         Usuario usuario = new Usuario();
@@ -84,5 +104,19 @@ public class UsuarioControllerTest {
 
     @Test
     public void logout() {
+        // Arrange
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
+
+        // Act
+        ResponseEntity<String> response = testRestTemplate.postForEntity("/logout", request, String.class);
+
+        // Assert
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assert.assertTrue(response.getBody().contains("login"));
     }
 }

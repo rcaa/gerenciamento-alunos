@@ -66,7 +66,7 @@ public class UsuarioController {
             modelAndView.setViewName("login/login");
         }
 
-        Usuario userLogin = serviceUsuario.loginUser(usuario.getEmail(), Util.md5(usuario.getSenha()));
+        Usuario userLogin = serviceUsuario.loginUser(usuario.getUser(), Util.md5(usuario.getSenha()));
         if(userLogin == null) {
             modelAndView.addObject("msg","Usuario não encontrado. Tente novamente");
             return cadastrar();
