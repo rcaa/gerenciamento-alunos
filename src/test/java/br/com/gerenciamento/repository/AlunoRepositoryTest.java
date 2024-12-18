@@ -50,4 +50,19 @@ public class AlunoRepositoryTest {
         Assert.assertEquals(1, alunos.size());
         Assert.assertEquals(Status.ATIVO, alunos.get(0).getStatus());
     }
+
+    @Test
+    public void deveriaCarregarUmAlunoInativoAoBuscarPeloStatus() {
+        Aluno aluno = new Aluno();
+        aluno.setNome("Matheus");
+        aluno.setMatricula("123456");
+        aluno.setStatus(Status.INATIVO);
+        aluno.setCurso(Curso.INFORMATICA);
+        aluno.setTurno(Turno.NOTURNO);
+        alunoRepository.save(aluno);
+
+        List<Aluno> alunos = alunoRepository.findByStatusInativo();
+        Assert.assertEquals(1, alunos.size());
+        Assert.assertEquals(Status.INATIVO, alunos.get(0).getStatus());
+    }
 }
