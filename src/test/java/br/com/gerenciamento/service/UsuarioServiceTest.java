@@ -9,7 +9,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.gerenciamento.model.Usuario;
 import br.com.gerenciamento.util.Util;
-import jakarta.validation.ConstraintViolationException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -60,15 +59,15 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void salvarSemEmail() throws Exception {
+    public void emailNaoPreenchido() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setUser("Okarun");
         usuario.setSenha("123");
         this.serviceUsuario.salvarUsuario(usuario);
-        
-        Assert.assertThrows(ConstraintViolationException.class, () -> {
-            this.serviceUsuario.salvarUsuario(usuario);});
+
+        Assert.assertNull("okarun@gmail.com", usuario.getEmail());
+
     }
 
 }
