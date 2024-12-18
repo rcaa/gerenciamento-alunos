@@ -17,7 +17,7 @@ public class UsuarioRepositoryTest {
     private UsuarioRepository repositoryUsuario;
 
     @Test
-    public void buscarPorEmail() throws Exception {
+    public void testeBuscarPorEmail() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setEmail("okarun@gmail.com");
@@ -31,7 +31,7 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void buscarLogin() throws Exception {
+    public void testeBuscarLogin() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setEmail("okarun@gmail.com");
@@ -46,14 +46,14 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void buscarPorUserNaoCadastrado() {
+    public void testeBuscarPorUserNaoCadastrado() {
         Usuario userLogin = this.repositoryUsuario.buscarLogin("Momo", "momo");
         Assert.assertNull("O Usuario deve retornar NULL", userLogin);
 
     }
 
     @Test
-    public void buscarPorEmailNaoCadastrado() {
+    public void testeBbuscarPorEmailNaoCadastrado() {
         Usuario userEmail = this.repositoryUsuario.findByEmail("momo@gmail.com");
         Assert.assertNull("O Email deve retornar NULL", userEmail);
 

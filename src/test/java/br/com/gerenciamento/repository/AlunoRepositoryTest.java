@@ -21,21 +21,21 @@ public class AlunoRepositoryTest {
     private AlunoRepository repositoryAluno;
 
     @Test
-    public void semAlunosAtivos() {
+    public void testeSemAlunosAtivos() {
         List<Aluno> alunosAtivos = repositoryAluno.findByStatusAtivo();
         Assert.assertTrue(alunosAtivos.isEmpty());
 
     }
 
     @Test
-    public void semAlunosInativos() {
+    public void testeSemAlunosInativos() {
         List<Aluno> alunosInativos = repositoryAluno.findByStatusInativo();
         Assert.assertTrue(alunosInativos.isEmpty());
 
     }
 
     @Test
-    public void existemAlunosInativos() {
+    public void testeExistemAlunosInativos() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
         aluno.setNome("Vinicius");
@@ -52,7 +52,7 @@ public class AlunoRepositoryTest {
 
     @Test
 
-    public void buscarPorNome() {
+    public void testeBuscarPorNome() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
         aluno.setNome("Vinicius");
@@ -63,7 +63,7 @@ public class AlunoRepositoryTest {
         this.repositoryAluno.save(aluno);
 
         List<Aluno> alunoEncontrado = repositoryAluno.findByNomeContainingIgnoreCase("vinicius");
-        Assert.assertFalse(alunoEncontrado.isEmpty());
+        Assert.assertEquals("Vinicius", alunoEncontrado.get(0).getNome());
 
     }
 }

@@ -18,7 +18,7 @@ public class UsuarioServiceTest {
     private ServiceUsuario serviceUsuario;
 
     @Test
-    public void salvarUsuario() throws Exception {
+    public void testeSalvarUsuario() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setEmail("okarun@gmail.com");
@@ -30,7 +30,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void realizarLogin() throws Exception {
+    public void testeRealizarLogin() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setEmail("okarun@gmail.com");
@@ -44,7 +44,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void loginInvalido() throws Exception {
+    public void testeLoginInvalido() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setEmail("okarun@gmail.com");
@@ -58,14 +58,14 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void emailNaoPreenchido() throws Exception {
+    public void testeEmailNaoPreenchido() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setUser("Okarun");
         usuario.setSenha("123");
         this.serviceUsuario.salvarUsuario(usuario);
 
-        Assert.assertNull("okarun@gmail.com", usuario.getEmail());
+        Assert.assertNull("Usuario não possui email cadastrado", usuario.getEmail());
 
     }
 

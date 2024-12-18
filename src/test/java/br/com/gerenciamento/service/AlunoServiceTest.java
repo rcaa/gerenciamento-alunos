@@ -51,7 +51,7 @@ public class AlunoServiceTest {
     }
 
     @Test
-    public void deleteById() {
+    public void testeDeleteById() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
         aluno.setNome("Vinicius");
@@ -67,7 +67,7 @@ public class AlunoServiceTest {
     }
 
     @Test
-    public void salvarSemTurno() {
+    public void testeSalvarSemTurno() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
         aluno.setNome("Vinicius");
@@ -79,7 +79,7 @@ public class AlunoServiceTest {
     }
 
     @Test
-    public void salvarSemMatricula() {
+    public void testeSalvarSemMatricula() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
         aluno.setNome("Vinicius");
@@ -91,7 +91,7 @@ public class AlunoServiceTest {
     }
 
     @Test
-    public void existemAlunosAtivos() {
+    public void testeExistemAlunosAtivos() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
         aluno.setNome("Vinicius");
