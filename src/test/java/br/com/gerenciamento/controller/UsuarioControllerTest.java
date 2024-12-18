@@ -59,6 +59,27 @@ public class UsuarioControllerTest {
 
     @Test
     public void cadastrar() {
+        // Arrange
+        Usuario usuario = new Usuario();
+        usuario.setUser("john_doe");
+        usuario.setEmail("john@doe.com");
+        usuario.setSenha("123456");
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("user", usuario.getUser());
+        form.add("email", usuario.getEmail());
+        form.add("senha", usuario.getSenha());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
+
+        // Act
+        ResponseEntity<String> response = testRestTemplate.postForEntity("/salvarUsuario", request, String.class);
+
+        // Assert
+        Assert.assertEquals(HttpStatus.FOUND, response.getStatusCode());
     }
 
     @Test
