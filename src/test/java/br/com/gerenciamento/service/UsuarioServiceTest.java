@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.gerenciamento.exception.EmailExistsException;
 import br.com.gerenciamento.model.Usuario;
 import br.com.gerenciamento.util.Util;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -58,14 +60,22 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testeEmailNaoPreenchido() throws Exception {
+    public void testeSalvarUsuarioComEmailJaCadastrado() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
+        usuario.setEmail("okarun@gmail.com");
         usuario.setUser("Okarun");
         usuario.setSenha("123");
         this.serviceUsuario.salvarUsuario(usuario);
 
-        Assert.assertNull("Usuario não possui email cadastrado", usuario.getEmail());
+        Usuario usuario2 = new Usuario();
+        usuario2.setId(2L);
+        usuario2.setEmail("okarun@gmail.com");
+        usuario2.setUser("Momo");
+        usuario2.setSenha("1234");
+
+        Assert.assertThrows(EmailExistsException.class, () -> {
+            this.serviceUsuario.salvarUsuario(usuario2);});
 
     }
 
