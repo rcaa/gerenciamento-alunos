@@ -1,5 +1,6 @@
 package br.com.gerenciamento.repository;
 
+import br.com.gerenciamento.enums.Turno;
 import br.com.gerenciamento.model.Aluno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,7 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long> {
     List<Aluno> findByStatusInativo();
 
     List<Aluno> findByNomeContainingIgnoreCase(String nome);
+
+    List<Aluno> findByTurno(Turno matutino);
 
 }
