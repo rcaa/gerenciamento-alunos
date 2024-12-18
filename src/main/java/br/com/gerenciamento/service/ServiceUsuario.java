@@ -28,7 +28,7 @@ public class ServiceUsuario {
         usuarioRepository.save(user);
     }
 
-    public Usuario loginUser(String user, String senha) {
-        return usuarioRepository.buscarLogin(user, senha);
+    public Usuario loginUser(String email, String senha) {
+        return usuarioRepository.findByEmailAndSenha(email, senha);
     }
 }
