@@ -25,7 +25,6 @@ public class UsuarioServiceTest {
         usuario.setUser("Okarun");
         usuario.setSenha("123");
         this.serviceUsuario.salvarUsuario(usuario);
-
         Assert.assertEquals("Okarun", usuario.getUser());
 
     }

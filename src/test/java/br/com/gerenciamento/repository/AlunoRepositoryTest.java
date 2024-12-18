@@ -52,7 +52,7 @@ public class AlunoRepositoryTest {
 
     @Test
 
-    public void naoExistemAlunosSemNome() {
+    public void buscarPorNome() {
         Aluno aluno = new Aluno();
         aluno.setId(1L);
         aluno.setNome("Vinicius");
@@ -62,8 +62,8 @@ public class AlunoRepositoryTest {
         aluno.setMatricula("123456");
         this.repositoryAluno.save(aluno);
 
-        List<Aluno> alunosComNome = repositoryAluno.findByNomeContainingIgnoreCase("vinicius");
-        Assert.assertFalse(alunosComNome.isEmpty());
+        List<Aluno> alunoEncontrado = repositoryAluno.findByNomeContainingIgnoreCase("vinicius");
+        Assert.assertFalse(alunoEncontrado.isEmpty());
 
     }
 }
