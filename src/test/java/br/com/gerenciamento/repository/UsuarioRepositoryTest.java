@@ -41,26 +41,26 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void deveriaRetornarUsuarioPorEmailESenha() {
+    public void deveriaRetornarUsuarioPorUserESenha() {
         // Arrange
         Usuario usuario = new Usuario();
-        usuario.setEmail("john@doe.com");
+        usuario.setUser("john_doe");
         usuario.setSenha("123456");
         usuarioRepository.save(usuario);
 
         // Act
-        Usuario usuarioEncontrado = usuarioRepository.findByEmailAndSenha(usuario.getEmail(), usuario.getSenha());
+        Usuario usuarioEncontrado = usuarioRepository.findByUserAndSenha(usuario.getUser(), usuario.getSenha());
 
         // Assert
         Assert.assertNotNull(usuarioEncontrado);
-        Assert.assertEquals(usuario.getEmail(), usuarioEncontrado.getEmail());
+        Assert.assertEquals(usuario.getUser(), usuarioEncontrado.getUser());
         Assert.assertEquals(usuario.getSenha(), usuarioEncontrado.getSenha());
     }
 
     @Test
-    public void deveriaRetornarNullQuandoNaoEncontrarUsuarioPorEmailESenha() {
+    public void deveriaRetornarNullQuandoNaoEncontrarUsuarioPorUserESenha() {
         // Act
-        Usuario usuarioEncontrado = usuarioRepository.findByEmailAndSenha("john@doe.com", "123456");
+        Usuario usuarioEncontrado = usuarioRepository.findByUserAndSenha("john_doe", "123456");
 
         // Assert
         Assert.assertNull(usuarioEncontrado);

@@ -9,5 +9,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("select e from Usuario e where e.email = :email")
     Usuario findByEmail(String email);
 
-    Usuario findByEmailAndSenha(String email, String senha);
+    Usuario findByUserAndSenha(String user, String senha);
 }

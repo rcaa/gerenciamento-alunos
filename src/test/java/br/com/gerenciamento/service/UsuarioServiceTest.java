@@ -19,6 +19,7 @@ public class UsuarioServiceTest {
     @Test
     public void deveriaLancarEmailExistsExceptionParaSalvarUsuario() {
         Usuario user = new Usuario();
+        user.setUser("john_doe");
         user.setEmail("john@doe.com");
         user.setSenha("1234");
 
@@ -36,6 +37,7 @@ public class UsuarioServiceTest {
     @Test
     public void deveriaSalvarUsuario() {
         Usuario user = new Usuario();
+        user.setUser("john_doe");
         user.setEmail("john@doe.com");
         user.setSenha("1234");
 
@@ -53,6 +55,7 @@ public class UsuarioServiceTest {
     @Test
     public void deveriaLogarUsuario() {
         Usuario user = new Usuario();
+        user.setUser("john_doe");
         user.setEmail("john@doe.com");
         user.setSenha("1234");
 
@@ -64,7 +67,7 @@ public class UsuarioServiceTest {
             Assert.fail("Não deveria lançar exceção");
         }
 
-        Usuario userRetorno = this.serviceUsuario.loginUser(user.getEmail(), user.getSenha());
+        Usuario userRetorno = this.serviceUsuario.loginUser(user.getUser(), user.getSenha());
 
         Assert.assertNotNull(userRetorno);
     }
@@ -72,6 +75,7 @@ public class UsuarioServiceTest {
     @Test
     public void deveriaRetornarNullParaLogarUsuario() {
         Usuario user = new Usuario();
+        user.setUser("john_doe");
         user.setEmail("john@doe.com");
         user.setSenha("1234");
 
@@ -83,7 +87,7 @@ public class UsuarioServiceTest {
             Assert.fail("Não deveria lançar exceção");
         }
 
-        Usuario userRetorno = this.serviceUsuario.loginUser(user.getEmail(), "12345");
+        Usuario userRetorno = this.serviceUsuario.loginUser(user.getUser(), "12345");
 
         Assert.assertNull(userRetorno);
     }
