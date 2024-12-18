@@ -24,6 +24,9 @@ public class AlunoControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    @Autowired
+    private ServiceAluno serviceAluno;
+
     @Test
     public void inserirAluno() {
         // Cria um novo aluno para teste
@@ -41,9 +44,22 @@ public class AlunoControllerTest {
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    // @Test
-    // public void listagemAlunos() {
-    // }
+    @Test
+    public void listagemAlunos() {
+        // Cadastro de um aluno para teste
+        Aluno novoAluno = new Aluno();
+        novoAluno.setNome("Maria Silva");
+        novoAluno.setMatricula("654321");
+        novoAluno.setCurso(Curso.INFORMATICA);
+        novoAluno.setStatus(Status.ATIVO);
+        novoAluno.setTurno(Turno.MATUTINO);
+        this.serviceAluno.save(novoAluno);
+
+        // Verifica se a listagem de alunos está funcionando corretamente
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/alunos-adicionados", String.class);
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assert.assertTrue(response.getBody().contains("Maria Silva"));
+    }
 
     // @Test
     // public void editar() {
