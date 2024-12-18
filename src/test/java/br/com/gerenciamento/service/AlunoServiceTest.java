@@ -59,4 +59,27 @@ public class AlunoServiceTest {
         this.serviceAluno.deleteById(1L);
         Assert.assertTrue(this.serviceAluno.findAll().isEmpty());
     }
+
+    @Test
+    public void findByStatusAtivo() {
+        Aluno aluno = new Aluno();
+        aluno.setId(1L);
+        aluno.setNome("Vinicius");
+        aluno.setTurno(Turno.NOTURNO);
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setStatus(Status.ATIVO);
+        aluno.setMatricula("123456");
+        this.serviceAluno.save(aluno);
+
+        Aluno aluno2 = new Aluno();
+        aluno2.setId(2L);
+        aluno2.setNome("Vinicius");
+        aluno2.setTurno(Turno.NOTURNO);
+        aluno2.setCurso(Curso.ADMINISTRACAO);
+        aluno2.setStatus(Status.INATIVO);
+        aluno2.setMatricula("123456");
+        this.serviceAluno.save(aluno2);
+
+        Assert.assertTrue(this.serviceAluno.findByStatusAtivo().size() == 1);
+    }
 }
