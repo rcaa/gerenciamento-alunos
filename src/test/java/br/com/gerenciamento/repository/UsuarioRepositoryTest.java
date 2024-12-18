@@ -33,7 +33,8 @@ public class UsuarioRepositoryTest {
         String email = "test@example.com";
         Usuario usuario = usuarioRepository.findByEmail(email);
         assertNotNull(usuario); 
-        assertEquals(email, usuario.getEmail()); 
+        assertEquals(email, usuario.getEmail());
+    }
 
     // Teste para encontrar um usuário pelo email quando o usuário não existe
     @Test
