@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -60,7 +61,7 @@ public class AlunoController {
     }
 
     @PostMapping("/editar")
-    public ModelAndView editar(Aluno aluno) throws Exception {
+    public ModelAndView editar(@RequestBody Aluno aluno) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         serviceAluno.save(aluno);
         modelAndView.setViewName("redirect:/alunos-adicionados");
