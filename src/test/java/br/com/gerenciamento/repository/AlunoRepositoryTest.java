@@ -37,6 +37,13 @@ public class AlunoRepositoryTest {
     }
 
     @Test
+    public void deveriaRetornarUmaListaVaziaAoBuscarPorNomeInexistente() {
+        String nome = "Matheus";
+        List<Aluno> alunos = alunoRepository.findByNomeContainingIgnoreCase(nome);
+        Assert.assertEquals(0, alunos.size());
+    }
+
+    @Test
     public void deveriaCarregarUmAlunoAtivoAoBuscarPeloStatus() {
         Aluno aluno = new Aluno();
         aluno.setNome("Matheus");
